@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     node1.vm.provision "shell", inline: common_script
 
     node1.vm.provision "ansible" do |ansible|
-      ansible.verbose = "v"
+      ansible.verbose = "vv"
       ansible.playbook = "bootstrap-workers.yml"
     end
   end

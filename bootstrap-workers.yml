@@ -6,3 +6,6 @@
     - name: Import role bootstrap
       ansible.builtin.include_role:
         name: bootstrap
+    - name: Import tls role
+      ansible.builtin.include_role:
+        name: tls

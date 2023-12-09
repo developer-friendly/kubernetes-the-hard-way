@@ -4,5 +4,13 @@
   when: create_ca
 - name: Generate control plane TLS certificate
   ansible.builtin.include_tasks:
-    admin.yml
-  when: create_admin
+    file: apiserver.yml
+  when: create_apiserver
+- name: Generate kubelet TLS certificate
+  ansible.builtin.include_tasks:
+    file: kubelet.yml
+  when: create_kubelet
+- name: Generate controller manager TLS certificate
+  ansible.builtin.include_tasks:
+    file: controller-manager.yml
+  when: create_controller_manager

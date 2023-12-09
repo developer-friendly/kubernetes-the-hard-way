@@ -1,0 +1,44 @@
+- name: Ensure CA directory exists
+  ansible.builtin.file:
+    path: /etc/kubernetes/pki
+    state: directory
+    mode: "0700"
+- name: Generate kubelet private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/kubelet.key
+    type: Ed25519
+- name: Generate kubelet CSR
+  community.crypto.openssl_csr:
+    path: /etc/kubernetes/pki/kubelet.csr
+    privatekey_path: /etc/kubernetes/pki/kubelet.key
+    common_name: 'system:node:{{ inventory_hostname }}'
+    subject:
+      O: 'system:nodes'
+      OU: 'Kubernetes The Hard Way'
+- name: Create kubelet TLS certificate using CA key and cert
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/kubelet.crt
+    csr_path: /etc/kubernetes/pki/kubelet.csr
+    privatekey_path: /etc/kubernetes/pki/kubelet.key
+    ownca_path: /vagrant/certs/ca.crt
+    ownca_privatekey_path: /vagrant/certs/ca.key
+    provider: ownca
+    ownca_not_after: +365d
+  retries: 120
+  delay: 5
+  register: cert
+  until: cert is succeeded
+- name: Ensure /vagrant/certs/ exists
+  ansible.builtin.file:
+    path: /vagrant/certs/
+    state: directory
+    mode: "0700"
+- name: Copy kubelet TLS certificate to /vagrant/certs/
+  ansible.builtin.copy:
+    src: /etc/kubernetes/pki/{{ item }}
+    dest: /vagrant/certs/{{ inventory_hostname }}-{{ item }}
+    mode: "0600"
+    remote_src: true
+  loop:
+    - kubelet.crt
+    - kubelet.key
