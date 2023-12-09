@@ -26,7 +26,7 @@ quota-backend-bytes: 0
 listen-peer-urls: http://{{ etcd_advertise_ip }}:2380
 
 # List of comma separated URLs to listen on for client traffic.
-listen-client-urls: http://{{ etcd_advertise_ip }}:2379
+listen-client-urls: http://{{ etcd_advertise_ip }}:2379,http://localhost:2379
 
 # Maximum number of snapshot files to retain (0 is unlimited).
 max-snapshots: 5
@@ -59,7 +59,7 @@ discovery-srv:
 
 # Comma separated string of initial cluster configuration for bootstrapping.
 # Example: initial-cluster: "infra0=http://10.0.1.10:2380,infra1=http://10.0.1.11:2380,infra2=http://10.0.1.12:2380"
-initial-cluster:
+initial-cluster: "{{ etcd_peer_name }}=http://{{ etcd_advertise_ip }}:2380"
 
 # Initial cluster token for the etcd cluster during bootstrap.
 initial-cluster-token: "etcd-cluster"
