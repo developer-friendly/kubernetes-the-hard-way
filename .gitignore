@@ -210,4 +210,4 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,go,ansible,vagrant
 
-certs
+share

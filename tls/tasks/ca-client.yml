@@ -1,6 +1,6 @@
 - name: Copy CA TLS certificate to /etc/kubernetes/pki/
   ansible.builtin.copy:
-    src: /vagrant/certs/ca.crt
+    src: /vagrant/share/ca.crt
     dest: /etc/kubernetes/pki/
     mode: '0600'
     remote_src: true

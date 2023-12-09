@@ -21,23 +21,23 @@
     path: /etc/kubernetes/pki/kube-apiserver.crt
     csr_path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
-    ownca_path: /vagrant/certs/ca.crt
-    ownca_privatekey_path: /vagrant/certs/ca.key
+    ownca_path: /vagrant/share/ca.crt
+    ownca_privatekey_path: /vagrant/share/ca.key
     provider: ownca
     ownca_not_after: +365d
   retries: 120
   delay: 5
   register: cert
   until: cert is succeeded
-- name: Ensure /vagrant/certs/ exists
+- name: Ensure /vagrant/share/ exists
   ansible.builtin.file:
-    path: /vagrant/certs/
+    path: /vagrant/share/
     state: directory
     mode: "0700"
-- name: Copy API Server TLS certificate to /vagrant/certs/
+- name: Copy API Server TLS certificate to /vagrant/share/
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}
-    dest: /vagrant/certs/
+    dest: /vagrant/share/
     mode: "0600"
     remote_src: true
   loop:

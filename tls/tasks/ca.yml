@@ -27,15 +27,15 @@
     csr_path: /etc/kubernetes/pki/ca.csr
     provider: selfsigned
     state: present
-- name: Ensure /vagrant/certs/ exists
+- name: Ensure /vagrant/share/ exists
   ansible.builtin.file:
-    path: /vagrant/certs/
+    path: /vagrant/share/
     state: directory
     mode: "0700"
 - name: Copy CA info to /vagrant
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}
-    dest: /vagrant/certs/
+    dest: /vagrant/share/
     remote_src: true
   loop:
     - ca.key
