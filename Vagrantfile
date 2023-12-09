@@ -7,7 +7,7 @@ common_script = <<-SCRIPT
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.define "node0" do |node0|    
+  config.vm.define "node0" do |node0|
     node0.vm.box = box
     node0.vm.hostname = "node0.local"
     node0.vm.network :private_network, ip: "192.168.56.2"
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
       ansible.verbose = "v"
       ansible.playbook = "bootstrap-controlplane.yml"
     end
-    
+
   end
 
   config.vm.define "node1" do |node1|
