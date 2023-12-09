@@ -14,3 +14,11 @@
   ansible.builtin.include_tasks:
     file: controller-manager.yml
   when: create_controller_manager
+- name: Generate scheduler TLS certificate
+  ansible.builtin.include_tasks:
+    file: scheduler.yml
+  when: create_scheduler
+- name: Create admin operator TLS certificate
+  ansible.builtin.include_tasks:
+    file: admin.yml
+  when: create_admin

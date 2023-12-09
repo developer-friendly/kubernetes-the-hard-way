@@ -14,3 +14,5 @@
         create_apiserver: true
         create_controller_manager: true
         create_scheduler: true
+        create_admin: true
+        create_serviceaccount: true
