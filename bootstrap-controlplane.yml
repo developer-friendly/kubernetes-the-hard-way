@@ -11,3 +11,4 @@
         name: tls
       vars:
         create_ca: true
+        create_admin: true

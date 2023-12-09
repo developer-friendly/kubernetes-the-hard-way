@@ -2,3 +2,7 @@
   ansible.builtin.include_tasks:
     file: ca.yml
   when: create_ca
+- name: Generate control plane TLS certificate
+  ansible.builtin.include_tasks:
+    admin.yml
+  when: create_admin
