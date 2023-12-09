@@ -3,19 +3,19 @@
     path: /etc/kubernetes/pki
     state: directory
     mode: "0700"
-- name: Generate control plane private key
+- name: Generate API Server private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/kube-apiserver.key
     type: Ed25519
-- name: Generate control plane CSR
+- name: Generate API Server CSR
   community.crypto.openssl_csr:
     path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
-    common_name: 'kube-kube-apiserver'
+    common_name: 'kube-apiserver'
     subject:
       O: 'system:masters'
       OU: 'Kubernetes The Hard Way'
-- name: Create control plane TLS certificate using CA key and cert
+- name: Create API Server TLS certificate using CA key and cert
   community.crypto.x509_certificate:
     path: /etc/kubernetes/pki/kube-apiserver.crt
     csr_path: /etc/kubernetes/pki/kube-apiserver.csr
@@ -33,7 +33,7 @@
     path: /vagrant/certs/
     state: directory
     mode: "0700"
-- name: Copy control plane TLS certificate to /vagrant/certs/
+- name: Copy API Server TLS certificate to /vagrant/certs/
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}
     dest: /vagrant/certs/

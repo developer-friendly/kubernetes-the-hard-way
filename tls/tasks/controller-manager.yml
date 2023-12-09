@@ -11,9 +11,9 @@
   community.crypto.openssl_csr:
     path: /etc/kubernetes/pki/kube-controller-manager.csr
     privatekey_path: /etc/kubernetes/pki/kube-controller-manager.key
-    common_name: 'kube-kube-controller-manager'
+    common_name: 'system:kube-controller-manager'
     subject:
-      O: 'system:masters'
+      O: 'system:kube-controller-manager'
       OU: 'Kubernetes The Hard Way'
 - name: Create controller manager TLS certificate using CA key and cert
   community.crypto.x509_certificate:
