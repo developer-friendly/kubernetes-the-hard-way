@@ -1,13 +1,13 @@
 # This is the configuration file for the etcd server.
 
 # Human-readable name for this member.
-name: "default"
+name: "{{ etcd_peer_name }}"
 
 # Path to the data directory.
-data-dir:
+data-dir: /var/lib/etcd
 
 # Path to the dedicated wal directory.
-wal-dir:
+wal-dir: /var/lib/etcd/wal
 
 # Number of committed transactions to trigger a snapshot to disk.
 snapshot-count: 10000

@@ -25,6 +25,6 @@
 - name: Start etcd service
   ansible.builtin.systemd_service:
     name: etcd.service
-    state: restarted
+    state: restarted # todo: started
     enabled: true
     daemon_reload: true
