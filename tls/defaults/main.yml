@@ -3,3 +3,4 @@ create_ca: false
 create_apiserver: false
 create_kubelet: true
 create_controller_manager: false
+create_scheduler: false

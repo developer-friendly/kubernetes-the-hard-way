@@ -13,3 +13,4 @@
         create_ca: true
         create_apiserver: true
         create_controller_manager: true
+        create_scheduler: true
