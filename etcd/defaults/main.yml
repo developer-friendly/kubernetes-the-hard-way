@@ -1,0 +1,6 @@
+---
+etcd_version: v3.5.11
+etcd_checksum: e256885e753dc99001335e099d3c2eb8cf21a865a087ee4d7e3665752ae5929a
+is_controlplane: false
+etcd_peer_name: "etcd-{{ ansible_hostname }}"
+etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses[-1] }}"

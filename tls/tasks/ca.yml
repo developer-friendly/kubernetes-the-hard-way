@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: /etc/kubernetes/pki
     state: directory
-    mode: "0700"
+    mode: "0750"
 - name: Generate CA private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/ca.key
@@ -31,7 +31,7 @@
   ansible.builtin.file:
     path: /vagrant/share/
     state: directory
-    mode: "0700"
+    mode: "0755"
 - name: Copy CA info to /vagrant
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}

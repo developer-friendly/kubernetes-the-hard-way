@@ -2,7 +2,7 @@
   ansible.builtin.file:
     path: /etc/kubernetes/pki
     state: directory
-    mode: "0700"
+    mode: "0750"
 - name: Generate API Server private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/kube-apiserver.key
@@ -12,7 +12,15 @@
     path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
     common_name: 'kube-apiserver'
-    subject_alt_name: "IP:{{ ansible_facts.all_ipv4_addresses[-1] }},IP:{{ ansible_facts.all_ipv6_addresses[-1] }},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster,DNS:kubernetes.default.svc.cluster.local"
+    subject_alt_name:
+      - IP:127.0.0.1
+      - IP:{{ ansible_facts.all_ipv4_addresses[-1] }}
+      - IP:{{ ansible_facts.all_ipv6_addresses[-1] }}
+      - DNS:kubernetes
+      - DNS:kubernetes.default
+      - DNS:kubernetes.default.svc
+      - DNS:kubernetes.default.svc.cluster
+      - DNS:kubernetes.default.svc.cluster.local
     subject:
       O: 'system:masters'
       OU: 'Kubernetes The Hard Way'
@@ -23,8 +31,8 @@
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
     ownca_path: /vagrant/share/ca.crt
     ownca_privatekey_path: /vagrant/share/ca.key
-    provider: ownca
     ownca_not_after: +365d
+    provider: ownca
   retries: 120
   delay: 5
   register: cert
@@ -33,12 +41,12 @@
   ansible.builtin.file:
     path: /vagrant/share/
     state: directory
-    mode: "0700"
+    mode: "0755"
 - name: Copy API Server TLS certificate to /vagrant/share/
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}
     dest: /vagrant/share/
-    mode: "0600"
+    mode: "0640"
     remote_src: true
   loop:
     - kube-apiserver.crt

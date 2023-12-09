@@ -1,0 +1,37 @@
+- name: Generate etcd server private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/etcd/server.key
+    type: Ed25519
+- name: Generate etcd server CSR
+  community.crypto.openssl_csr:
+    path: /etc/kubernetes/pki/etcd/server.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/server.key
+    common_name: 'etcd-server'
+    subject_alt_name:
+      - DNS:localhost
+      - IP:127.0.0.1
+      - IP:{{ ansible_facts.all_ipv4_addresses[-1] }}
+      - IP:{{ ansible_facts.all_ipv6_addresses[-1] }}
+- name: Generate etcd server certificate
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/etcd/server.crt
+    csr_path: /etc/kubernetes/pki/etcd/server.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/server.key
+    provider: ownca
+    state: present
+    ownca_path: /vagrant/share/etcd-ca.crt
+    ownca_privatekey_path: /vagrant/share/etcd-ca.key
+    ownca_not_after: +365d
+  retries: 120
+  delay: 5
+  register: cert
+  until: cert is succeeded
+- name: Copy certs to /vagrant/share/
+  ansible.builtin.copy:
+    src: /etc/kubernetes/pki/etcd/{{ item }}
+    dest: /vagrant/share/etcd-{{ item }}
+    remote_src: true
+    mode: '0400'
+  loop:
+    - server.key
+    - server.crt

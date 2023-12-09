@@ -15,3 +15,6 @@
       vars:
         apiserver_ip: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv6_addresses[-1] }}"
         is_controlplane: true
+    - name: Import etcd role
+      ansible.builtin.include_role:
+        name: etcd

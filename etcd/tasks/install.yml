@@ -1,0 +1,23 @@
+---
+- name: Download etcd release tarball
+  ansible.builtin.get_url:
+    url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+    dest: /tmp/etcd-linux-amd64.tar.gz
+    mode: '0644'
+    checksum: sha256:{{ etcd_checksum }}
+- name: Ensure gzip is installed
+  ansible.builtin.package:
+    name: gzip
+    state: present
+- name: Extract etcd from the tarball to /usr/local/bin/
+  ansible.builtin.unarchive:
+    src: /tmp/etcd-linux-amd64.tar.gz
+    dest: /usr/local/bin/
+    remote_src: true
+    creates: /usr/local/bin/etcd
+    mode: '0755'
+    include:
+      - etcd-{{ etcd_version }}-linux-amd64/etcd
+      - etcd-{{ etcd_version }}-linux-amd64/etcdctl
+    extra_opts:
+      - --strip-components=1

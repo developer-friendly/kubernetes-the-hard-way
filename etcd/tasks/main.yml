@@ -1,0 +1,14 @@
+---
+- name: Install etcd
+  ansible.builtin.import_tasks:
+    file: install.yml
+- name: Create CA certificates
+  ansible.builtin.import_tasks:
+    file: ca-cert.yml
+  when: is_controlplane
+- name: Create etcd certificates
+  ansible.builtin.import_tasks:
+    file: server-cert.yml
+- name: Configure the server
+  ansible.builtin.import_tasks:
+    file: configure.yml

@@ -16,7 +16,7 @@
       ansible.builtin.file:
         path: /vagrant/share/
         state: directory
-        mode: '0700'
+        mode: '0755'
         owner: root
         group: root
     - name: Write secret to file

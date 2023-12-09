@@ -1,0 +1,30 @@
+- name: Copy CA TLS certificate to /etc/kubernetes/pki/etcd/
+  ansible.builtin.copy:
+    src: /vagrant/share/etcd-ca.crt
+    dest: /etc/kubernetes/pki/etcd/ca.crt
+    mode: '0640'
+    remote_src: true
+  retries: 120
+  delay: 5
+  register: copy_ca_cert
+  until: copy_ca_cert is succeeded
+- name: Create systemd service
+  ansible.builtin.template:
+    src: systemd.service.j2
+    dest: '/etc/systemd/system/etcd.service'
+    mode: '0644'
+    owner: root
+    group: root
+- name: Copy etcd config file
+  ansible.builtin.template:
+    src: conf.yml.j2
+    dest: '/etc/etcd/etcd.conf.yml'
+    mode: '0644'
+    owner: root
+    group: root
+- name: Start etcd service
+  ansible.builtin.systemd_service:
+    name: etcd.service
+    state: restarted
+    enabled: true
+    daemon_reload: true

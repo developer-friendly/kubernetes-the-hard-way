@@ -2,7 +2,7 @@
   ansible.builtin.copy:
     src: /vagrant/share/ca.crt
     dest: /etc/kubernetes/pki/
-    mode: '0600'
+    mode: '0640'
     remote_src: true
   retries: 120
   delay: 5

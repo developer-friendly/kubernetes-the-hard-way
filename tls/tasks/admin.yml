@@ -2,7 +2,7 @@
   ansible.builtin.file:
     path: /etc/kubernetes/pki
     state: directory
-    mode: "0700"
+    mode: "0750"
 - name: Generate Admin Operator private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/admin.key
@@ -32,7 +32,7 @@
   ansible.builtin.file:
     path: /vagrant/share/
     state: directory
-    mode: "0700"
+    mode: "0755"
 - name: Copy Admin Operator TLS certificate to /vagrant/share/
   ansible.builtin.copy:
     src: /etc/kubernetes/pki/{{ item }}

@@ -1,0 +1,44 @@
+- name: Ensure the etcd directories exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0750'
+  loop:
+    - /var/lib/etcd
+    - /etc/etcd
+    - /etc/kubernetes/manifests
+    - /etc/kubernetes/pki/etcd
+- name: Generate etcd CA private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/etcd/ca.key
+    type: Ed25519
+- name: Generate etcd CA CSR†
+  community.crypto.openssl_csr:
+    path: /etc/kubernetes/pki/etcd/ca.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    common_name: 'etcd-ca'
+    key_usage:
+      - digitalSignature
+      - keyAgreement
+    extended_key_usage:
+      - clientAuth
+      - serverAuth
+    state: present
+- name: Generate etcd CA certificate
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/etcd/ca.crt
+    csr_path: /etc/kubernetes/pki/etcd/ca.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    provider: selfsigned
+    state: present
+- name: Copy etcd certs to /vagrant/share/
+  ansible.builtin.copy:
+    src: /etc/kubernetes/pki/etcd/{{ item }}
+    dest: /vagrant/share/etcd-{{ item }}
+    remote_src: true
+    mode: '0400'
+  loop:
+    - ca.crt
+    - ca.key
