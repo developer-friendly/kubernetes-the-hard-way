@@ -2,8 +2,8 @@ box = "ubuntu/jammy64"
 
 common_script = <<-SCRIPT
   export DEBIAN_FRONTEND=noninteractive
-  apt update
-  apt install -y ansible
+  apt-get update
+  apt-get install -y ansible
 SCRIPT
 
 Vagrant.configure("2") do |config|

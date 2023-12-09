@@ -1,0 +1,37 @@
+---
+- name: Read the contents of /vagrant/share/encryption-secret
+  ansible.builtin.slurp:
+    src: '/vagrant/share/encryption-secret'
+  register: encryption_secret_file
+  failed_when: false
+- name: Generate random string of 64 length
+  ansible.builtin.set_fact:
+    key_secret: "{{ lookup('password', '/dev/null length=64 chars=ascii_letters,digits,special_characters') }}"
+  no_log: true
+  when: key_secret is not defined
+- name: Ensure key_secret is populated
+  when: encryption_secret_file.content is not defined
+  block:
+    - name: Ensure /vagrant/share/ exists
+      ansible.builtin.file:
+        path: /vagrant/share/
+        state: directory
+        mode: '0700'
+        owner: root
+        group: root
+    - name: Write secret to file
+      ansible.builtin.copy:
+        content: '{{ key_secret }}'
+        dest: '/vagrant/share/encryption-secret'
+        mode: '0400'
+- name: Read existing key_secret
+  ansible.builtin.set_fact:
+    key_secret: "{{ encryption_secret_file.content | b64decode }}"
+  when: encryption_secret_file.content is defined
+- name: Create encryption config
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: /var/lib/kubernetes/encryption-config.yml
+    mode: '0400'
+    owner: root
+    group: root
