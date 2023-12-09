@@ -1,0 +1,43 @@
+---
+- name: Ensure CA directory exists
+  ansible.builtin.file:
+    path: /etc/kubernetes/pki
+    state: directory
+    mode: "0700"
+- name: Generate CA private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/ca.key
+    type: Ed25519
+- name: Generate CA CSR to provide ALT names and other options
+  community.crypto.openssl_csr:
+    path: /etc/kubernetes/pki/ca.csr
+    privatekey_path: /etc/kubernetes/pki/ca.key
+    common_name: "Kubernetes"
+    subject_alt_name: "IP:{{ ansible_facts.all_ipv4_addresses[-1] }},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster,DNS:kubernetes.default.svc.cluster.local"
+    key_usage:
+      - digitalSignature
+      - keyAgreement
+    extended_key_usage:
+      - clientAuth
+      - serverAuth
+    state: present
+- name: Generate CA certificate
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/ca.crt
+    privatekey_path: /etc/kubernetes/pki/ca.key
+    csr_path: /etc/kubernetes/pki/ca.csr
+    provider: selfsigned
+    state: present
+- name: Ensure /vagrant/certs/ exists
+  ansible.builtin.file:
+    path: /vagrant/certs/
+    state: directory
+    mode: "0700"
+- name: Copy CA info to /vagrant
+  ansible.builtin.copy:
+    src: /etc/kubernetes/pki/{{ item }}
+    dest: /vagrant/certs/
+    remote_src: true
+  loop:
+    - ca.key
+    - ca.crt

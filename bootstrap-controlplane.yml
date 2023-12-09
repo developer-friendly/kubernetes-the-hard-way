@@ -1,0 +1,13 @@
+- name: Bootstrap Kubernetes Control plane
+  hosts: node0
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Import bootstrap role
+      ansible.builtin.include_role:
+        name: bootstrap
+    - name: Import tls role
+      ansible.builtin.include_role:
+        name: tls
+      vars:
+        create_ca: true

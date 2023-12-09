@@ -1,0 +1,8 @@
+- name: Bootstrap Kubernetes worker nodes
+  hosts: node1:node2
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Import role bootstrap
+      ansible.builtin.include_role:
+        name: bootstrap
