@@ -1,0 +1,22 @@
+---
+- name: Ensure /var/lib/kubernetes exists
+  ansible.builtin.file:
+    path: /var/lib/kubernetes
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+- name: Generate KubeConfig for Kubernetes components
+  ansible.builtin.template:
+    src: kubeconfig.yml.j2
+    dest: /var/lib/kubernetes/{{ item }}.kubeconfig
+    mode: "0640"
+    owner: root
+    group: root
+  vars:
+    client_cert_path: /etc/kubernetes/pki/{{ item }}.crt
+    client_key_path: /etc/kubernetes/pki/{{ item }}.key
+  loop:
+    - kube-controller-manager
+    - kube-scheduler
+    - admin

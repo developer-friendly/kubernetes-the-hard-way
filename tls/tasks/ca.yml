@@ -13,7 +13,6 @@
     path: /etc/kubernetes/pki/ca.csr
     privatekey_path: /etc/kubernetes/pki/ca.key
     common_name: "Kubernetes"
-    subject_alt_name: "IP:{{ ansible_facts.all_ipv4_addresses[-1] }},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster,DNS:kubernetes.default.svc.cluster.local"
     key_usage:
       - digitalSignature
       - keyAgreement

@@ -2,6 +2,10 @@
   ansible.builtin.include_tasks:
     file: ca.yml
   when: create_ca
+- name: Copy CA TLS certificate to node
+  ansible.builtin.include_tasks:
+    file: ca-client.yml
+  when: create_ca_client
 - name: Generate control plane TLS certificate
   ansible.builtin.include_tasks:
     file: apiserver.yml
@@ -22,3 +26,7 @@
   ansible.builtin.include_tasks:
     file: admin.yml
   when: create_admin
+- name: Create service accounts TLS certificate
+  ansible.builtin.include_tasks:
+    file: serviceaccount.yml
+  when: create_serviceaccount

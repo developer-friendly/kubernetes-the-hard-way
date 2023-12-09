@@ -1,0 +1,5 @@
+---
+ca_cert_path: /etc/kubernetes/pki/ca.crt
+kube_context: kubernetes-the-hard-way
+is_controlplane: false
+is_worker: true

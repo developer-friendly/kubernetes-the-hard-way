@@ -6,3 +6,4 @@ create_kubelet: true
 create_controller_manager: false
 create_scheduler: false
 create_serviceaccount: false
+create_ca_client: true

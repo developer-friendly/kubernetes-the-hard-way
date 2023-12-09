@@ -16,3 +16,9 @@
         create_scheduler: true
         create_admin: true
         create_serviceaccount: true
+    - name: Import kubeconfig role
+      ansible.builtin.include_role:
+        name: kubeconfig
+      vars:
+        apiserver_ip: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv6_addresses[-1] }}"
+        is_controlplane: true

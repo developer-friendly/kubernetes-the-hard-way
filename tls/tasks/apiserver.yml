@@ -12,6 +12,7 @@
     path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
     common_name: 'kube-apiserver'
+    subject_alt_name: "IP:{{ ansible_facts.all_ipv4_addresses[-1] }},IP:{{ ansible_facts.all_ipv6_addresses[-1] }},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster,DNS:kubernetes.default.svc.cluster.local"
     subject:
       O: 'system:masters'
       OU: 'Kubernetes The Hard Way'

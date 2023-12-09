@@ -1,0 +1,9 @@
+---
+- name: Set up KubeConfig for control plane
+  ansible.builtin.include_tasks:
+    file: controlplane.yml
+  when: is_controlplane
+- name: Set up KubeConfig for worker nodes
+  ansible.builtin.include_tasks:
+    file: kubelet.yml
+  when: is_worker
