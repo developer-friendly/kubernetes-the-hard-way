@@ -6,7 +6,7 @@
 - name: Generate Scheduler private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/kube-scheduler.key
-    type: "{{ privatekey_type }}"
+    type: "{{ k8s_privatekey_type }}"
 - name: Generate Scheduler CSR
   community.crypto.openssl_csr:
     path: /etc/kubernetes/pki/kube-scheduler.csr

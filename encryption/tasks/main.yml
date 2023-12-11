@@ -4,9 +4,9 @@
     src: '/vagrant/share/encryption-secret'
   register: encryption_secret_file
   failed_when: false
-- name: Generate random string of 64 length
+- name: Generate random string
   ansible.builtin.set_fact:
-    key_secret: "{{ lookup('password', '/dev/null length=64 chars=ascii_letters,digits,special_characters') }}"
+    key_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits,special_characters') }}"
   no_log: true
   when: key_secret is not defined
 - name: Ensure key_secret is populated
@@ -26,12 +26,13 @@
         mode: '0400'
 - name: Read existing key_secret
   ansible.builtin.set_fact:
-    key_secret: "{{ encryption_secret_file.content | b64decode }}"
+    key_secret: "{{ encryption_secret_file.content }}"
+  no_log: true
   when: encryption_secret_file.content is defined
 - name: Create encryption config
   ansible.builtin.template:
     src: config.yml.j2
-    dest: /var/lib/kubernetes/encryption-config.yml
+    dest: /etc/kubernetes/encryption-config.yml
     mode: '0400'
     owner: root
     group: root

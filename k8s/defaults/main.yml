@@ -1,0 +1,3 @@
+---
+k8s_version:
+kubernetes_public_ip: "{{ ansible_facts.all_ipv4_addresses | last }},{{ ansible_facts.all_ipv6_addresses | last }}"

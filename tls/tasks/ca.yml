@@ -7,7 +7,7 @@
 - name: Generate CA private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/ca.key
-    type: "{{ privatekey_type }}"
+    type: "{{ k8s_privatekey_type }}"
 - name: Generate CA CSR to provide ALT names and other options
   community.crypto.openssl_csr:
     basicConstraints_critical: true

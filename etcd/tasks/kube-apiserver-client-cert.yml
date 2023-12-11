@@ -9,24 +9,16 @@
     - /etc/kubernetes/pki/etcd
 - name: Generate etcd server private key
   community.crypto.openssl_privatekey:
-    path: /etc/kubernetes/pki/etcd/server.key
+    path: /etc/kubernetes/pki/etcd/kube-apiserver.key
     type: "{{ etcd_privatekey_type }}"
-- name: Generate etcd server CSR
+- name: Generate kube-apiserver server CSR
   community.crypto.openssl_csr:
-    basicConstraints_critical: true
-    basic_constraints:
-      - CA:FALSE
-    common_name: etcd-server
+    common_name: kube-apiserver
     extKeyUsage_critical: false
     extended_key_usage:
       - clientAuth
-      - serverAuth
-    keyUsage_critical: true
-    keyUsage:
-      - digitalSignature
-      - keyEncipherment
-    path: /etc/kubernetes/pki/etcd/server.csr
-    privatekey_path: /etc/kubernetes/pki/etcd/server.key
+    path: /etc/kubernetes/pki/etcd/kube-apiserver.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/kube-apiserver.key
     subject_alt_name:
       - DNS:localhost
       - DNS:{{ etcd_peer_name }}
@@ -34,11 +26,11 @@
       - IP:127.0.0.1
       - IP:{{ ansible_facts.all_ipv4_addresses[-1] }}
       - IP:{{ ansible_facts.all_ipv6_addresses[-1] }}
-- name: Generate etcd server certificate
+- name: Generate kube-apiserver certificate
   community.crypto.x509_certificate:
-    path: /etc/kubernetes/pki/etcd/server.crt
-    csr_path: /etc/kubernetes/pki/etcd/server.csr
-    privatekey_path: /etc/kubernetes/pki/etcd/server.key
+    path: /etc/kubernetes/pki/etcd/kube-apiserver.crt
+    csr_path: /etc/kubernetes/pki/etcd/kube-apiserver.csr
+    privatekey_path: /etc/kubernetes/pki/etcd/kube-apiserver.key
     provider: ownca
     state: present
     ownca_path: /vagrant/share/etcd-ca.crt
@@ -55,5 +47,5 @@
     remote_src: true
     mode: '0400'
   loop:
-    - server.key
-    - server.crt
+    - kube-apiserver.key
+    - kube-apiserver.crt

@@ -1,0 +1,29 @@
+---
+- name: Ensure k8s_version is set
+  ansible.builtin.set_fact:
+    k8s_version: "{{lookup('url', 'https://dl.k8s.io/release/stable.txt').split('\n')[0]}}"
+  when: not k8s_version
+- name: Download the Kubernetes binaries
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/{{ k8s_version }}/kubernetes-server-linux-amd64.tar.gz"
+    dest: /tmp/kubernetes-server-linux-amd64.tar.gz
+    mode: "0764"
+    owner: root
+    group: root
+- name: Extract binaries to system path
+  ansible.builtin.unarchive:
+    src: /tmp/kubernetes-server-linux-amd64.tar.gz
+    dest: /usr/local/bin/
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0755"
+    creates: "{{ item }}"
+    extra_opts:
+      - --strip-components=3
+  loop:
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
+    - kubelet
+    - kubectl

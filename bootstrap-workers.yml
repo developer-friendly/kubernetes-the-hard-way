@@ -4,6 +4,7 @@
   gather_facts: true
   vars_files:
     - "{{ playbook_dir }}/vars/etcd.yml"
+    - "{{ playbook_dir }}/vars/k8s.yml"
     - "{{ playbook_dir }}/vars/tls.yml"
   tasks:
     - name: Import role bootstrap
@@ -15,8 +16,6 @@
     - name: Import kubeconfig role
       ansible.builtin.include_role:
         name: kubeconfig
-      vars:
-        apiserver_ip: "[{{ ansible_facts.all_ipv6_addresses[-1] }}]"
     - name: Import etcd role
       ansible.builtin.include_role:
         name: etcd

@@ -6,7 +6,7 @@
 - name: Generate API Server private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/kube-apiserver.key
-    type: "{{ privatekey_type }}"
+    type: "{{ k8s_privatekey_type }}"
 - name: Generate API Server CSR
   community.crypto.openssl_csr:
     basicConstraints_critical: true
@@ -18,8 +18,8 @@
       - clientAuth
       - serverAuth
     keyUsage:
-      - digitalSignature
       - keyEncipherment
+      - dataEncipherment
     keyUsage_critical: true
     path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key

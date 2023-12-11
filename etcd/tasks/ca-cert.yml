@@ -10,7 +10,7 @@
 - name: Generate etcd CA private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/etcd/ca.key
-    type: "{{ privatekey_type }}"
+    type: "{{ etcd_privatekey_type }}"
 - name: Generate etcd CA CSR
   community.crypto.openssl_csr:
     basicConstraints_critical: true

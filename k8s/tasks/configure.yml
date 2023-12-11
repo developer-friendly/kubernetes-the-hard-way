@@ -1,0 +1,15 @@
+- name: Copy API server systemd service files
+  ansible.builtin.template:
+    src: kube-apiserver.service.j2
+    dest: /etc/systemd/system/kube-apiserver.service
+    mode: "0644"
+    owner: root
+    group: root
+- name: Start all the services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop:
+    - kube-apiserver

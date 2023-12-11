@@ -6,7 +6,7 @@
 - name: Generate Admin Operator private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/admin.key
-    type: "{{ privatekey_type }}"
+    type: "{{ k8s_privatekey_type }}"
 - name: Generate Admin Operator CSR
   community.crypto.openssl_csr:
     path: /etc/kubernetes/pki/admin.csr

@@ -12,3 +12,6 @@
 - name: Configure the server
   ansible.builtin.import_tasks:
     file: configure.yml
+- name: Create kube-apiserver client certificate
+  ansible.builtin.import_tasks:
+    file: kube-apiserver-client-cert.yml

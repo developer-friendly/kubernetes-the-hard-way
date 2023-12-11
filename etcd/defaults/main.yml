@@ -7,3 +7,4 @@ etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses[-1] }}"
 etcd_initial_cluster_state: new
 etcd_initial_cluster_token: k8s-etcd-cluster
 etcd_initial_cluster:
+etcd_privatekey_type: Ed25519

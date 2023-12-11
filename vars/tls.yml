@@ -1,2 +1,2 @@
 ---
-privatekey_type: Ed25519
+k8s_privatekey_type: RSA
