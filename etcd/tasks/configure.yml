@@ -1,3 +1,12 @@
+- name: Ensure the etcd directories exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0750'
+  loop:
+    - /etc/etcd
 - name: Copy CA TLS certificate to /etc/kubernetes/pki/etcd/
   ansible.builtin.copy:
     src: /vagrant/share/etcd-ca.crt
@@ -15,16 +24,10 @@
     mode: '0644'
     owner: root
     group: root
-- name: Copy etcd config file
-  ansible.builtin.template:
-    src: conf.yml.j2
-    dest: '/etc/etcd/etcd.conf.yml'
-    mode: '0644'
-    owner: root
-    group: root
 - name: Start etcd service
   ansible.builtin.systemd_service:
     name: etcd.service
-    state: restarted # todo: started
+    state: started
     enabled: true
     daemon_reload: true
+  failed_when: false

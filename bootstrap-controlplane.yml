@@ -2,29 +2,32 @@
   hosts: node0
   become: true
   gather_facts: true
+  vars_files:
+    - "{{ playbook_dir }}/vars/etcd.yml"
+    - "{{ playbook_dir }}/vars/tls.yml"
   tasks:
-    # - name: Import bootstrap role
-    #   ansible.builtin.include_role:
-    #     name: bootstrap
-    # - name: Import tls role
-    #   ansible.builtin.include_role:
-    #     name: tls
-    #   vars:
-    #     create_ca: true
-    #     create_apiserver: true
-    #     create_controller_manager: true
-    #     create_scheduler: true
-    #     create_admin: true
-    #     create_serviceaccount: true
-    # - name: Import kubeconfig role
-    #   ansible.builtin.include_role:
-    #     name: kubeconfig
-    #   vars:
-    #     apiserver_ip: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv6_addresses[-1] }}"
-    #     is_controlplane: true
-    # - name: Import encryption role
-    #   ansible.builtin.include_role:
-    #     name: encryption
+    - name: Import bootstrap role
+      ansible.builtin.include_role:
+        name: bootstrap
+    - name: Import tls role
+      ansible.builtin.include_role:
+        name: tls
+      vars:
+        create_ca: true
+        create_apiserver: true
+        create_controller_manager: true
+        create_scheduler: true
+        create_admin: true
+        create_serviceaccount: true
+    - name: Import kubeconfig role
+      ansible.builtin.include_role:
+        name: kubeconfig
+      vars:
+        apiserver_ip: "[{{ ansible_facts.all_ipv6_addresses[-1] }}]"
+        is_controlplane: true
+    - name: Import encryption role
+      ansible.builtin.include_role:
+        name: encryption
     - name: Import etcd role
       ansible.builtin.include_role:
         name: etcd

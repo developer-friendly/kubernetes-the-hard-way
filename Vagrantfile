@@ -2,8 +2,7 @@ box = "ubuntu/jammy64"
 
 common_script = <<-SCRIPT
   export DEBIAN_FRONTEND=noninteractive
-  apt-get update
-  apt-get install -y ansible
+  usermod -aG adm vagrant
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -16,6 +15,7 @@ Vagrant.configure("2") do |config|
     node0.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "bootstrap-controlplane.yml"
+      ansible.compatibility_mode = "2.0"
     end
 
   end
@@ -29,6 +29,7 @@ Vagrant.configure("2") do |config|
     node1.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "bootstrap-workers.yml"
+      ansible.compatibility_mode = "2.0"
     end
   end
 
@@ -41,6 +42,7 @@ Vagrant.configure("2") do |config|
     node2.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "bootstrap-workers.yml"
+      ansible.compatibility_mode = "2.0"
     end
 
   end

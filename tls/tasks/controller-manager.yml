@@ -6,7 +6,7 @@
 - name: Generate controller manager private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/kube-controller-manager.key
-    type: Ed25519
+    type: "{{ privatekey_type }}"
 - name: Generate controller manager CSR
   community.crypto.openssl_csr:
     path: /etc/kubernetes/pki/kube-controller-manager.csr

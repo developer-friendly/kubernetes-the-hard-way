@@ -4,7 +4,26 @@ Documentation=https://github.com/etcd-io/etcd
 
 [Service]
 Type=notify
-ExecStart=/usr/local/bin/etcd --config-file=/etc/etcd/etcd.conf.yml
+#ExecStart=/usr/local/bin/etcd --config-file=/etc/etcd/etcd.conf.yml
+ExecStart=/usr/local/bin/etcd \
+--name {{ etcd_peer_name }} \
+--cert-file=/etc/kubernetes/pki/etcd/server.crt \
+--key-file=/etc/kubernetes/pki/etcd/server.key \
+--peer-cert-file=/etc/kubernetes/pki/etcd/server.crt \
+--peer-key-file=/etc/kubernetes/pki/etcd/server.key \
+--trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt \
+--peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt \
+--peer-client-cert-auth \
+--client-cert-auth \
+--initial-advertise-peer-urls=https://{{ etcd_advertise_ip }}:2380 \
+--listen-peer-urls=https://{{ etcd_advertise_ip }}:2380 \
+--listen-client-urls=https://{{ etcd_advertise_ip }}:2379,https://localhost:2379 \
+--advertise-client-urls=https://{{ etcd_advertise_ip }}:2379 \
+--initial-cluster-token={{ etcd_initial_cluster_token }} \
+--initial-cluster={{ etcd_initial_cluster }} \
+--initial-cluster-state={{ etcd_initial_cluster_state }} \
+--data-dir=/var/lib/etcd
+
 Restart=on-failure
 RestartSec=5
 

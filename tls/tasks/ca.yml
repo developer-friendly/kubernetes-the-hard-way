@@ -7,18 +7,19 @@
 - name: Generate CA private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/ca.key
-    type: Ed25519
+    type: "{{ privatekey_type }}"
 - name: Generate CA CSR to provide ALT names and other options
   community.crypto.openssl_csr:
+    basicConstraints_critical: true
+    basic_constraints:
+      - CA:TRUE
+    common_name: kubernetes-ca
+    keyUsage_critical: true
+    key_usage:
+      - keyCertSign
+      - cRLSign
     path: /etc/kubernetes/pki/ca.csr
     privatekey_path: /etc/kubernetes/pki/ca.key
-    common_name: "Kubernetes"
-    key_usage:
-      - digitalSignature
-      - keyAgreement
-    extended_key_usage:
-      - clientAuth
-      - serverAuth
     state: present
 - name: Generate CA certificate
   community.crypto.x509_certificate:

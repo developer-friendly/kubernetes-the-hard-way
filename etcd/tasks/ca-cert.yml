@@ -6,25 +6,23 @@
     group: 'root'
     mode: '0750'
   loop:
-    - /var/lib/etcd
-    - /etc/etcd
-    - /etc/kubernetes/manifests
     - /etc/kubernetes/pki/etcd
 - name: Generate etcd CA private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/etcd/ca.key
-    type: Ed25519
-- name: Generate etcd CA CSR†
+    type: "{{ privatekey_type }}"
+- name: Generate etcd CA CSR
   community.crypto.openssl_csr:
+    basicConstraints_critical: true
+    basic_constraints:
+      - CA:TRUE
+    common_name: etcd-ca
+    keyUsage_critical: true
+    key_usage:
+      - keyCertSign
+      - cRLSign
     path: /etc/kubernetes/pki/etcd/ca.csr
     privatekey_path: /etc/kubernetes/pki/etcd/ca.key
-    common_name: 'etcd-ca'
-    key_usage:
-      - digitalSignature
-      - keyAgreement
-    extended_key_usage:
-      - clientAuth
-      - serverAuth
     state: present
 - name: Generate etcd CA certificate
   community.crypto.x509_certificate:
