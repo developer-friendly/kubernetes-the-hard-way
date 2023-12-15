@@ -36,3 +36,4 @@
     mode: '0400'
     owner: root
     group: root
+  no_log: true

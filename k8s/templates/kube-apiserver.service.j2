@@ -31,8 +31,11 @@ ExecStart=/usr/local/bin/kube-apiserver \
   --service-node-port-range=30000-32767 \
   --tls-cert-file=/etc/kubernetes/pki/etcd/kube-apiserver.crt \
   --tls-private-key-file=/etc/kubernetes/pki/etcd/kube-apiserver.key \
+  --proxy-client-cert-file=/etc/kubernetes/pki/etcd/kube-apiserver.crt \
+  --proxy-client-key-file=/etc/kubernetes/pki/etcd/kube-apiserver.key \
   --peer-advertise-ip={{ apiserver_ip }} \
   --peer-ca-file=/etc/kubernetes/pki/ca.crt \
+  --feature-gates=UnknownVersionInteroperabilityProxy=true,StorageVersionAPI=true \
   --v=2
 Restart=on-failure
 RestartSec=5
