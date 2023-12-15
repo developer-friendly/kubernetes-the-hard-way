@@ -1,3 +1,6 @@
 ---
-k8s_version:
+k8s_version: "{{ lookup('url', 'https://dl.k8s.io/release/stable.txt').split('\n')[0] }}"
 kubernetes_public_ip: "{{ ansible_facts.all_ipv4_addresses | last }},{{ ansible_facts.all_ipv6_addresses | last }}"
+cluster_cidr: 10.200.0.0/16
+service_cluster_ip_range: 10.32.0.0/24
+bind_address: "::"

@@ -1,8 +1,4 @@
 ---
-- name: Ensure k8s_version is set
-  ansible.builtin.set_fact:
-    k8s_version: "{{lookup('url', 'https://dl.k8s.io/release/stable.txt').split('\n')[0]}}"
-  when: not k8s_version
 - name: Download the Kubernetes binaries
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/{{ k8s_version }}/kubernetes-server-linux-amd64.tar.gz"
