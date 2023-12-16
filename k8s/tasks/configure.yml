@@ -8,13 +8,13 @@
 - name: Copy configurations
   ansible.builtin.copy:
     src: "{{ item.src }}"
-    dest: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: "0644"
     owner: root
     group: root
   with_items:
     - src: kube-scheduler.conf.yml
-      dest: /etc/kubernetes/config/kube-scheduler.conf
+      dest: /etc/kubernetes/config/kube-scheduler.yml
 - name: Copy API server systemd service files
   ansible.builtin.template:
     src: "{{ item }}.service.j2"
