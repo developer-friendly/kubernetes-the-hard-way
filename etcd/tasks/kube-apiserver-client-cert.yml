@@ -24,8 +24,7 @@
       - DNS:{{ etcd_peer_name }}
       - DNS:{{ inventory_hostname }}
       - IP:127.0.0.1
-      - IP:{{ ansible_facts.all_ipv4_addresses[-1] }}
-      - IP:{{ ansible_facts.all_ipv6_addresses[-1] }}
+      - IP:{{ apiserver_ip }}
 - name: Generate kube-apiserver certificate
   community.crypto.x509_certificate:
     path: /etc/kubernetes/pki/etcd/kube-apiserver.crt

@@ -1,2 +1,3 @@
 ---
 etcd_initial_cluster: etcd-node0=https://192.168.56.2:2380,etcd-node1=https://192.168.56.3:2380,etcd-node2=https://192.168.56.4:2380
+etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"

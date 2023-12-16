@@ -1,3 +1,20 @@
+- name: Ensure Kubernetes config dir exists
+  ansible.builtin.file:
+    path: /etc/kubernetes/config
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+- name: Copy configurations
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.src }}"
+    mode: "0644"
+    owner: root
+    group: root
+  with_items:
+    - src: kube-scheduler.conf.yml
+      dest: /etc/kubernetes/config/kube-scheduler.conf
 - name: Copy API server systemd service files
   ansible.builtin.template:
     src: "{{ item }}.service.j2"
@@ -8,6 +25,7 @@
   loop:
     - kube-apiserver
     - kube-controller-manager
+    - kube-scheduler
 - name: Start all the services
   ansible.builtin.systemd_service:
     name: "{{ item }}"
@@ -17,3 +35,4 @@
   loop:
     - kube-apiserver
     - kube-controller-manager
+    - kube-scheduler

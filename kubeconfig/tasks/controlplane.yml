@@ -20,3 +20,12 @@
     - kube-controller-manager
     - kube-scheduler
     - admin
+- name: Generate KubeConfig for host machine
+  ansible.builtin.template:
+    src: kubeconfig.yml.j2
+    dest: /vagrant/share/admin.yml
+    mode: "0640"
+  vars:
+    ca_cert_path: ./ca.crt
+    client_cert_path: ./admin.crt
+    client_key_path: ./admin.key

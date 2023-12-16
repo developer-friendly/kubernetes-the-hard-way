@@ -28,8 +28,7 @@
       OU: Kubernetes The Hard Way
     subject_alt_name:
       - IP:127.0.0.1
-      - IP:{{ ansible_facts.all_ipv4_addresses[-1] }}
-      - IP:{{ ansible_facts.all_ipv6_addresses[-1] }}
+      - IP:{{ apiserver_ip }}
       - DNS:localhost
       - DNS:{{ inventory_hostname }}
       - DNS:kubernetes
