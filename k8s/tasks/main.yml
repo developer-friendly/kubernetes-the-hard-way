@@ -5,3 +5,6 @@
 - name: Configure Kubernetes
   ansible.builtin.import_tasks:
     file: configure.yml
+- name: Configure Kubelet
+  ansible.builtin.import_tasks:
+    file: kubelet.yml

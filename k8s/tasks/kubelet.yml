@@ -1,0 +1,20 @@
+- name: Ensure pip is installed
+  ansible.builtin.package:
+    name: python3-pip
+    state: present
+- name: Ensure kubernetes python library is installed
+  ansible.builtin.pip:
+    name: kubernetes<29
+    state: present
+- name: Copy Kubelet RBAC YAML
+  ansible.builtin.copy:
+    src: kubelet.rbac.yml
+    dest: /var/lib/kubernetes/
+    mode: '0644'
+    owner: root
+    group: root
+- name: Apply Kubelet RBAC
+  kubernetes.core.k8s:
+    state: present
+    src: /var/lib/kubernetes/kubelet.rbac.yml
+    kubeconfig: /var/lib/kubernetes/admin.kubeconfig

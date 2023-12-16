@@ -2,14 +2,14 @@
   ansible.builtin.file:
     path: /etc/kubernetes/config
     state: directory
-    mode: "0755"
+    mode: '0755'
     owner: root
     group: root
 - name: Copy configurations
   ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "0644"
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0644'
     owner: root
     group: root
   with_items:
@@ -17,9 +17,9 @@
       dest: /etc/kubernetes/config/kube-scheduler.yml
 - name: Copy API server systemd service files
   ansible.builtin.template:
-    src: "{{ item }}.service.j2"
+    src: '{{ item }}.service.j2'
     dest: /etc/systemd/system/{{ item }}.service
-    mode: "0644"
+    mode: '0644'
     owner: root
     group: root
   loop:
@@ -28,7 +28,7 @@
     - kube-scheduler
 - name: Start all the services
   ansible.builtin.systemd_service:
-    name: "{{ item }}"
+    name: '{{ item }}'
     state: started
     enabled: true
     daemon_reload: true
