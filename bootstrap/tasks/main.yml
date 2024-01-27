@@ -7,3 +7,8 @@
 - name: Reload sysctl
   ansible.builtin.shell: sysctl --system
   changed_when: false
+- name: Ensure python3-pip package is installed
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+    update_cache: true

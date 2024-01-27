@@ -4,7 +4,7 @@
     state: present
 - name: Ensure kubernetes python library is installed
   ansible.builtin.pip:
-    name: kubernetes<29
+    name: kubernetes<30
     state: present
 - name: Copy Kubelet RBAC YAML
   ansible.builtin.copy:
