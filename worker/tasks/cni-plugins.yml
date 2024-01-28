@@ -1,0 +1,31 @@
+- name: Download cni-plugins checksum
+  ansible.builtin.get_url:
+    url: "{{ cni_plugins_checksum_url }}"
+    dest: /tmp/
+  register: cni_plugins_checksum
+- name: Slurp cni-plugins checksum
+  ansible.builtin.slurp:
+    src: "{{ cni_plugins_checksum.dest }}"
+  register: cni_plugins_checksum
+- name: Download cni-pugins
+  ansible.builtin.get_url:
+    url: "{{ cni_plugins_url }}"
+    dest: /tmp/{{ cni_plugins_url | basename }}
+    mode: "0764"
+    checksum: "sha256:{{ cni_plugins_checksum.content | b64decode | regex_replace('\\s.*$','') }}"
+  register: cni_plugins
+- name: Ensure cni-plugins directory exists
+  ansible.builtin.file:
+    path: /opt/cni/bin/
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Extract cni-plugins
+  ansible.builtin.unarchive:
+    src: "{{ cni_plugins.dest }}"
+    dest: /opt/cni/bin/
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true

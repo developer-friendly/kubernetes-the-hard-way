@@ -1,0 +1,25 @@
+- name: Download crictl
+  ansible.builtin.get_url:
+    url: "{{ crictl_url }}"
+    dest: /tmp/
+    mode: "0764"
+  register: crictl_download
+- name: Download crictl checksum
+  ansible.builtin.get_url:
+    url: "{{ crictl_checksum_url }}"
+    dest: /tmp/
+    mode: "0764"
+  register: crictl_checksum
+- name: Verify crictl checksum
+  ansible.builtin.shell:
+    cmd: |
+      cd /tmp
+      sha256sum -c {{ crictl_checksum.dest }}
+  register: crictl_checksum_result
+  failed_when: crictl_checksum_result.rc != 0 or crictl_checksum_result.stdout.find('OK') == -1
+- name: Extract crictl binary
+  ansible.builtin.unarchive:
+    src: "{{ crictl_download.dest }}"
+    dest: /usr/local/bin/
+    remote_src: yes
+    mode: "0755"

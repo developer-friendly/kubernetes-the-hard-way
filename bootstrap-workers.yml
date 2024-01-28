@@ -7,15 +7,18 @@
     - "{{ playbook_dir }}/vars/k8s.yml"
     - "{{ playbook_dir }}/vars/tls.yml"
   tasks:
-    - name: Import role bootstrap
+    # - name: Import role bootstrap
+    #   ansible.builtin.include_role:
+    #     name: bootstrap
+    # - name: Import tls role
+    #   ansible.builtin.include_role:
+    #     name: tls
+    # - name: Import kubeconfig role
+    #   ansible.builtin.include_role:
+    #     name: kubeconfig
+    # - name: Import etcd role
+    #   ansible.builtin.include_role:
+    #     name: etcd
+    - name: Configure worker node
       ansible.builtin.include_role:
-        name: bootstrap
-    - name: Import tls role
-      ansible.builtin.include_role:
-        name: tls
-    - name: Import kubeconfig role
-      ansible.builtin.include_role:
-        name: kubeconfig
-    - name: Import etcd role
-      ansible.builtin.include_role:
-        name: etcd
+        name: worker

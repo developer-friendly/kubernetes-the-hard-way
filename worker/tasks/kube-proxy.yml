@@ -1,0 +1,8 @@
+- name: Download kube-proxy
+  ansible.builtin.get_url:
+    url: "{{ kube_proxy_url }}"
+    dest: /usr/local/bin/kube-proxy
+    owner: root
+    group: root
+    mode: "0755"
+  register: kube_proxy_download

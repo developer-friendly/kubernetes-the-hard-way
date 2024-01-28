@@ -1,0 +1,7 @@
+- name: Download kubectl
+  ansible.builtin.get_url:
+    url: "{{ kubectl_url }}"
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: "0755"

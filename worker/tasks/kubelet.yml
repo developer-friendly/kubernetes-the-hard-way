@@ -1,0 +1,7 @@
+- name: Download kubelet
+  ansible.builtin.get_url:
+    url: "{{ kubelet_url }}"
+    dest: /usr/local/bin/kubelet
+    owner: root
+    group: root
+    mode: "0755"

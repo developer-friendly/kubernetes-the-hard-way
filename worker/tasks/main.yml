@@ -1,0 +1,33 @@
+- name: Prepare
+  ansible.builtin.import_tasks:
+    file: prepare.yml
+- name: Install containerd
+  ansible.builtin.import_tasks:
+    file: containerd.yml
+- name: Install runc
+  ansible.builtin.import_tasks:
+    file: runc.yml
+- name: Install cni-plugins
+  ansible.builtin.import_tasks:
+    file: cni-plugins.yml
+- name: Install kube-proxy
+  ansible.builtin.import_tasks:
+    file: kube-proxy.yml
+- name: Install kubectl
+  ansible.builtin.import_tasks:
+    file: kubectl.yml
+- name: Install kubelet
+  ansible.builtin.import_tasks:
+    file: kubelet.yml
+- name: Install worker binaries
+  ansible.builtin.import_tasks:
+    file: binaries.yml
+- name: Configure CNI
+  ansible.builtin.import_tasks:
+    file: cni-config.yml
+- name: Configure kubelet
+  ansible.builtin.import_tasks:
+    file: kubelet-config.yml
+- name: Finalize configuration
+  ansible.builtin.import_tasks:
+    file: finalize.yml
