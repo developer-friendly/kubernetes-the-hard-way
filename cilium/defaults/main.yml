@@ -1,0 +1,6 @@
+---
+enable_ipv6: true
+cluster_name: kubernetes-the-hard-way
+cilium_cli_url: https://github.com/cilium/cilium-cli/releases/download/v0.15.23/cilium-linux-amd64.tar.gz
+cilium_cli_sha256: cda3f1c40ae2191a250a7cea9e2c3987eaa81cb657dda54cd8ce25f856c384da
+cilium_install_args: ""

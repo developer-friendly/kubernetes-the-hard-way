@@ -23,14 +23,10 @@
               "ranges": [
                 [{
                   "subnet": "{{ pod_subnet_cidr_v4 }}"
-                }],
-                [{
-                  "subnet": "{{ pod_subnet_cidr_v6 }}"
                 }]
               ],
               "routes": [
-                { "dst": "0.0.0.0/0" },
-                { "dst": "::/0" }
+                { "dst": "0.0.0.0/0" }
               ]
             }
           },

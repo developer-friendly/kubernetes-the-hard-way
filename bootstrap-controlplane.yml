@@ -6,6 +6,8 @@
     - "{{ playbook_dir }}/vars/etcd.yml"
     - "{{ playbook_dir }}/vars/k8s.yml"
     - "{{ playbook_dir }}/vars/tls.yml"
+  environment:
+    KUBECONFIG: /vagrant/share/admin.yml
   tasks:
     - name: Import bootstrap role
       ansible.builtin.include_role:
@@ -36,3 +38,9 @@
     - name: Import k8s role
       ansible.builtin.include_role:
         name: k8s
+    - name: Import worker role
+      ansible.builtin.include_role:
+        name: worker
+    - name: Import cilium role
+      ansible.builtin.include_role:
+        name: cilium

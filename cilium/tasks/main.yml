@@ -1,0 +1,17 @@
+- name: Install cilium-cli
+  ansible.builtin.get_url:
+    url: "{{ cilium_cli_url }}"
+    checksum: "sha256:{{ cilium_cli_sha256 }}"
+    dest: /tmp/cilium-linux-amd64.tar.gz
+- name: Extract cilium-cli
+  ansible.builtin.unarchive:
+    src: /tmp/cilium-linux-amd64.tar.gz
+    dest: /usr/local/bin/
+    remote_src: true
+    mode: "0755"
+    extra_opts:
+      - cilium
+- name: Install cilium
+  ansible.builtin.shell: "cilium install {{ cilium_install_args }}"
+  args:
+    creates: /var/run/cilium/cilium.sock

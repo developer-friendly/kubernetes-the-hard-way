@@ -1,11 +1,10 @@
 [Unit]
-Description=Kubernetes Scheduler
+Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/local/bin/kube-scheduler \
-  --config=/etc/kubernetes/config/kube-scheduler.yml \
-  --v=2
+ExecStart=/usr/local/bin/kube-proxy \
+  --config /var/lib/kube-proxy/config.yml
 Restart=on-failure
 RestartSec=5
 
