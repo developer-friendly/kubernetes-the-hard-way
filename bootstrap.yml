@@ -1,0 +1,52 @@
+- name: Bootstrap the Kubernetes Cluster
+  hosts: node0:node1:node2
+  become: true
+  gather_facts: true
+  vars:
+    etcd_initial_cluster: etcd-node0=https://192.168.56.2:2380,etcd-node1=https://192.168.56.3:2380,etcd-node2=https://192.168.56.4:2380
+    etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+    apiserver_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+    cilium_install_args: --set kubeProxyReplacement=true
+    k8s_version: v1.29.1
+    k8s_privatekey_type: RSA
+  environment:
+    KUBECONFIG: /vagrant/share/admin.yml
+  tasks:
+    - name: Import bootstrap role
+      ansible.builtin.include_role:
+        name: bootstrap
+    - name: Import tls role
+      ansible.builtin.include_role:
+        name: tls
+      vars:
+        create_ca: "{{ inventory_hostname == 'node0' }}"
+        create_apiserver: "{{ inventory_hostname == 'node0' }}"
+        create_controller_manager: "{{ inventory_hostname == 'node0' }}"
+        create_scheduler: "{{ inventory_hostname == 'node0' }}"
+        create_admin: "{{ inventory_hostname == 'node0' }}"
+        create_serviceaccount: "{{ inventory_hostname == 'node0' }}"
+    - name: Import kubeconfig role
+      ansible.builtin.include_role:
+        name: kubeconfig
+      vars:
+        is_controlplane: "{{ inventory_hostname == 'node0' }}"
+    - name: Import encryption role
+      ansible.builtin.include_role:
+        name: encryption
+      when: inventory_hostname == 'node0'
+    - name: Import etcd role
+      ansible.builtin.include_role:
+        name: etcd
+      vars:
+        is_controlplane: "{{ inventory_hostname == 'node0' }}"
+    - name: Import k8s role
+      ansible.builtin.include_role:
+        name: k8s
+      when: inventory_hostname == 'node0'
+    - name: Import worker role
+      ansible.builtin.include_role:
+        name: worker
+    - name: Import cilium role
+      ansible.builtin.include_role:
+        name: cilium
+      when: inventory_hostname == 'node0'

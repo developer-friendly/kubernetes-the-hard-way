@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
 
     node.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = "bootstrap-controlplane.yml"
+      ansible.playbook = "bootstrap.yml"
       ansible.compatibility_mode = "2.0"
     end
   end
@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
     node.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = "bootstrap-workers.yml"
+      ansible.playbook = "bootstrap.yml"
       ansible.compatibility_mode = "2.0"
     end
   end
@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
 
     node.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = "bootstrap-workers.yml"
+      ansible.playbook = "bootstrap.yml"
       ansible.compatibility_mode = "2.0"
     end
 

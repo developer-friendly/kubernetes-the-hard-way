@@ -30,6 +30,3 @@
   ansible.builtin.include_tasks:
     file: serviceaccount.yml
   when: create_serviceaccount
-- name: Create kube-proxy TLS certificate
-  ansible.builtin.include_tasks:
-    file: kube-proxy.yml

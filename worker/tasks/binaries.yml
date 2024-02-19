@@ -8,7 +8,6 @@
   loop:
     - /etc/cni/net.d
     - /opt/cni/bin
-    - /var/lib/kube-proxy
     - /var/lib/kubelet
     - /var/lib/kubernetes
     - /var/run/kubernetes
