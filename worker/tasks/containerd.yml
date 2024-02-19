@@ -1,29 +1,26 @@
-- name: Download containerd checksum
-  ansible.builtin.get_url:
-    url: "{{ containerd_checksum_url }}"
-    dest: /tmp/{{ containerd_checksum_url | basename }}
-  register: containerd_checksum
-- name: Slurp checksum
-  ansible.builtin.slurp:
-    src: "{{ containerd_checksum.dest }}"
-  register: containerd_checksum
 - name: Download containerd
   ansible.builtin.get_url:
     url: "{{ containerd_url }}"
     dest: /tmp/{{ containerd_url | basename }}
-    checksum: "sha256:{{ containerd_checksum.content | b64decode | regex_replace('\\s.*$','') }}"
+    checksum: "sha256:{{ lookup('url', containerd_checksum_url) | split | first }}"
+    mode: "0755"
   register: containerd_download
+- name: Create /tmp/containerd directory
+  ansible.builtin.file:
+    path: /tmp/containerd
+    state: directory
+    mode: "0755"
 - name: Extract containerd
   ansible.builtin.unarchive:
     src: "{{ containerd_download.dest }}"
-    dest: /tmp
+    dest: /tmp/containerd
     mode: "0755"
     remote_src: true
 - name: Glob files in unarchived bin directory
   ansible.builtin.find:
-    paths: /tmp/bin
+    paths: /tmp/containerd
     file_type: file
-    recurse: false
+    recurse: true
     mode: "0755"
   register: containerd_bin_files
 - name: Install containerd
@@ -39,4 +36,7 @@
   ansible.builtin.get_url:
     url: "{{ containerd_service_url }}"
     dest: /etc/systemd/system/
+    mode: "0644"
+    owner: root
+    group: root
   register: containerd_service_download

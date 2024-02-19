@@ -1,3 +1,4 @@
 ---
 apiserver_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
 cilium_install_args: --set kubeProxyReplacement=true
+k8s_version: v1.29.1

@@ -1,18 +1,9 @@
-- name: Download cni-plugins checksum
-  ansible.builtin.get_url:
-    url: "{{ cni_plugins_checksum_url }}"
-    dest: /tmp/
-  register: cni_plugins_checksum
-- name: Slurp cni-plugins checksum
-  ansible.builtin.slurp:
-    src: "{{ cni_plugins_checksum.dest }}"
-  register: cni_plugins_checksum
 - name: Download cni-pugins
   ansible.builtin.get_url:
     url: "{{ cni_plugins_url }}"
     dest: /tmp/{{ cni_plugins_url | basename }}
     mode: "0764"
-    checksum: "sha256:{{ cni_plugins_checksum.content | b64decode | regex_replace('\\s.*$','') }}"
+    checksum: "sha256:{{ lookup('url', cni_plugins_checksum_url) | split | first }}"
   register: cni_plugins
 - name: Ensure cni-plugins directory exists
   ansible.builtin.file:

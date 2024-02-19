@@ -10,9 +10,6 @@
 - name: Install cni-plugins
   ansible.builtin.import_tasks:
     file: cni-plugins.yml
-- name: Install kube-proxy
-  ansible.builtin.import_tasks:
-    file: kube-proxy.yml
 - name: Install kubectl
   ansible.builtin.import_tasks:
     file: kubectl.yml
