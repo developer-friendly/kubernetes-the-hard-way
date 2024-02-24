@@ -10,7 +10,7 @@ repos:
       - id: file-contents-sorter
       - id: requirements-txt-fixer
       - id: check-yaml
-        exclude: cilium/files/manifests.yml
+        exclude: "{cilium,codedns}/files/manifests.yml"
       - id: sort-simple-yaml
       - id: check-added-large-files
   - repo: https://github.com/antonbabenko/pre-commit-terraform
