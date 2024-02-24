@@ -1,4 +1,8 @@
 ---
+- name: Generate an empty temp file for CSR
+  ansible.builtin.tempfile:
+    state: file
+  register: temp_file
 - name: Generate CA private key
   community.crypto.openssl_privatekey:
     path: /vagrant/share/ca.key
@@ -14,14 +18,14 @@
     key_usage:
       - keyCertSign
       - cRLSign
-    path: /vagrant/share/ca.csr
+    path: "{{ temp_file.path }}"
     privatekey_path: /vagrant/share/ca.key
     state: present
 - name: Generate CA certificate
   community.crypto.x509_certificate:
     path: /vagrant/share/ca.crt
     privatekey_path: /vagrant/share/ca.key
-    csr_path: /vagrant/share/ca.csr
+    csr_path: "{{ temp_file.path }}"
     provider: selfsigned
     state: present
 - name: Copy cert to kubernetes PKI dir

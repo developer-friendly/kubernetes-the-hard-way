@@ -49,7 +49,7 @@ frontend stats
 
 frontend kube_apiserver
   mode tcp
-  bind :443
+  bind :{{ haproxy_port }}
   default_backend kube_apiserver
 
 backend kube_apiserver

@@ -1,0 +1,24 @@
+- name: Generate an empty temp file for CSR
+  ansible.builtin.tempfile:
+    state: file
+  register: temp_file
+- name: Generate Etcd Admin private key
+  community.crypto.openssl_privatekey:
+    path: /vagrant/share/etcd-admin.key
+    type: "{{ k8s_privatekey_type }}"
+- name: Generate Etcd Admin CSR
+  community.crypto.openssl_csr:
+    common_name: etcd-admin
+    extended_key_usage:
+      - clientAuth
+    path: "{{ temp_file.path }}"
+    privatekey_path: /vagrant/share/etcd-admin.key
+- name: Create Etcd Admin TLS certificate using Etcd CA key and cert
+  community.crypto.x509_certificate:
+    path: /vagrant/share/etcd-admin.crt
+    csr_path: "{{ temp_file.path }}"
+    privatekey_path: /vagrant/share/etcd-admin.key
+    ownca_path: /vagrant/share/etcd-ca.crt
+    ownca_privatekey_path: /vagrant/share/etcd-ca.key
+    provider: ownca
+    ownca_not_after: +365d

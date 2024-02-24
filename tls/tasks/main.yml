@@ -13,3 +13,6 @@
 - name: Create service accounts TLS certificate
   ansible.builtin.include_tasks:
     file: serviceaccount.yml
+- name: CA Cert
+  ansible.builtin.include_tasks:
+    file: ca-cert.yml

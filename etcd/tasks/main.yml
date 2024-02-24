@@ -2,10 +2,6 @@
 - name: Install etcd
   ansible.builtin.import_tasks:
     file: install.yml
-- name: Create CA certificates
-  ansible.builtin.import_tasks:
-    file: ca-cert.yml
-  when: is_controlplane
 - name: Create etcd certificates
   ansible.builtin.import_tasks:
     file: server-cert.yml
@@ -15,3 +11,6 @@
 - name: Create kube-apiserver client certificate
   ansible.builtin.import_tasks:
     file: kube-apiserver-client-cert.yml
+- name: CA Cert
+  ansible.builtin.include_tasks:
+    file: ca-cert.yml

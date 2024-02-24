@@ -1,12 +1,3 @@
-- name: Ensure the etcd directories exist
-  ansible.builtin.file:
-    path: '{{ item }}'
-    state: directory
-    owner: 'root'
-    group: 'root'
-    mode: '0750'
-  loop:
-    - /etc/kubernetes/pki/etcd
 - name: Generate etcd server private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/etcd/server.key
@@ -28,11 +19,11 @@
     path: /etc/kubernetes/pki/etcd/server.csr
     privatekey_path: /etc/kubernetes/pki/etcd/server.key
     subject_alt_name:
+      - IP:127.0.0.1
+      - IP:{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}
       - DNS:localhost
       - DNS:{{ etcd_peer_name }}
       - DNS:{{ inventory_hostname }}
-      - IP:127.0.0.1
-      - IP:{{ apiserver_ip }}
 - name: Generate etcd server certificate
   community.crypto.x509_certificate:
     path: /etc/kubernetes/pki/etcd/server.crt
@@ -43,16 +34,3 @@
     ownca_path: /vagrant/share/etcd-ca.crt
     ownca_privatekey_path: /vagrant/share/etcd-ca.key
     ownca_not_after: +365d
-  retries: 120
-  delay: 5
-  register: cert
-  until: cert is succeeded
-- name: Copy certs to /vagrant/share/
-  ansible.builtin.copy:
-    src: /etc/kubernetes/pki/etcd/{{ item }}
-    dest: /vagrant/share/etcd-{{ inventory_hostname }}-{{ item }}
-    remote_src: true
-    mode: '0400'
-  loop:
-    - server.key
-    - server.crt

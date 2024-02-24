@@ -1,10 +1,10 @@
 - name: Copy CA cert to machine
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: /etc/kubernetes/etcd/pki/
+    dest: /etc/kubernetes/pki/
     owner: root
     group: root
     mode: "0640"
     remote_src: true
   loop:
-    - /vagrant/share/etcd-ca.crt
+    - /vagrant/share/ca.crt

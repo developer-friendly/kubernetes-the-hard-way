@@ -7,6 +7,7 @@
     - vars/apt.yml
     - vars/lb.yml
     - vars/k8s.yml
+    - vars/etcd.yml
   # vars:
   #   etcd_initial_cluster: etcd-node0=https://192.168.56.2:2380,etcd-node1=https://192.168.56.3:2380,etcd-node2=https://192.168.56.4:2380
   #   etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
@@ -48,11 +49,11 @@
       run_once: true
       tags:
         - encryption
-    # - name: Import etcd role
-    #   ansible.builtin.include_role:
-    #     name: etcd
-    #   tags:
-    #     - etcd
+    - name: Import etcd role
+      ansible.builtin.include_role:
+        name: etcd
+      tags:
+        - etcd
     # - name: Import k8s role
     #   ansible.builtin.include_role:
     #     name: k8s

@@ -1,0 +1,45 @@
+- name: Generate an empty temp file for CSR
+  ansible.builtin.tempfile:
+    state: file
+  register: temp_file
+- name: Ensure the etcd directories exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0750'
+  loop:
+    - /etc/kubernetes/pki/etcd
+- name: Generate etcd CA private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/etcd/ca.key
+    type: "{{ etcd_privatekey_type }}"
+- name: Generate etcd CA CSR
+  community.crypto.openssl_csr:
+    basicConstraints_critical: true
+    basic_constraints:
+      - CA:TRUE
+    common_name: etcd-ca
+    keyUsage_critical: true
+    key_usage:
+      - keyCertSign
+      - cRLSign
+    path: "{{ temp_file.path }}"
+    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    state: present
+- name: Generate etcd CA certificate
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/etcd/ca.crt
+    csr_path: "{{ temp_file.path }}"
+    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    provider: selfsigned
+    state: present
+- name: Copy etcd certs to /vagrant/share/
+  ansible.builtin.copy:
+    src: /etc/kubernetes/pki/etcd/{{ item }}
+    dest: /vagrant/share/etcd-{{ item }}
+    remote_src: true
+    mode: '0400'
+  loop:
+    - ca.crt
