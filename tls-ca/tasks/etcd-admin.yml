@@ -15,12 +15,12 @@
     common_name: etcd-admin
     extended_key_usage:
       - clientAuth
-    path: "{{ temp_file.path }}"
+    path: "{{ temp_file.dest }}"
     privatekey_path: /vagrant/share/etcd-admin.key
 - name: Create Etcd Admin TLS certificate using Etcd CA key and cert
   community.crypto.x509_certificate:
     path: /vagrant/share/etcd-admin.crt
-    csr_path: "{{ temp_file.path }}"
+    csr_path: "{{ temp_file.dest }}"
     privatekey_path: /vagrant/share/etcd-admin.key
     ownca_path: /vagrant/share/etcd-ca.crt
     ownca_privatekey_path: /vagrant/share/etcd-ca.key

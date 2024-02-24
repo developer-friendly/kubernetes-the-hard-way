@@ -8,71 +8,17 @@
     - vars/lb.yml
     - vars/k8s.yml
     - vars/etcd.yml
-  # vars:
-  #   etcd_initial_cluster: etcd-node0=https://192.168.56.2:2380,etcd-node1=https://192.168.56.3:2380,etcd-node2=https://192.168.56.4:2380
-  #   etcd_advertise_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
-  #   apiserver_ip: 192.168.56.2
-  #   cilium_install_args: --set kubeProxyReplacement=true
-  #   k8s_version: v1.29.2
   environment:
-    KUBECONFIG: /var/lib/kubernetes/admin.kubeconfig
-  tasks:
-    - name: Import prerequisites role
-      ansible.builtin.include_role:
-        name: prerequisites
-      tags:
-        - prerequisites
-    - name: Import haproxy role
-      ansible.builtin.include_role:
-        name: haproxy
-      tags:
-        - haproxy
-    - name: Import tls CA role
-      ansible.builtin.include_role:
-        name: tls-ca
-      tags:
-        - tls-ca
-      run_once: true
-    - name: Import tls role
-      ansible.builtin.include_role:
-        name: tls
-      tags:
-        - tls
-    - name: Import kubeconfig role
-      ansible.builtin.include_role:
-        name: kubeconfig
-      tags:
-        - kubeconfig
-    - name: Import encryption role
-      ansible.builtin.include_role:
-        name: encryption
-      run_once: true
-      tags:
-        - encryption
-    - name: Import etcd role
-      ansible.builtin.include_role:
-        name: etcd
-      tags:
-        - etcd
-    - name: Import k8s role
-      ansible.builtin.include_role:
-        name: k8s
-      tags:
-        - k8s
-    - name: Import cilium role
-      ansible.builtin.include_role:
-        name: cilium
-      run_once: true
-      tags:
-        - cilium
-    # - name: Import worker role
-    #   ansible.builtin.include_role:
-    #     name: worker
-    #   tags:
-    #     - worker
-    # - name: Import CoreDNS role
-    #   ansible.builtin.include_role:
-    #     name: coredns
-    #   when: inventory_hostname == 'node0'
-    #   tags:
-    #     - coredns
+    KUBECONFIG: /vagrant/share/admin.yml
+  roles:
+    - prerequisites
+    - haproxy
+    - tls-ca
+    - tls
+    - kubeconfig
+    - encryption
+    - etcd
+    - k8s
+    - cilium
+    # - worker
+    # - coredns

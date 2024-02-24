@@ -2,6 +2,9 @@
   ansible.builtin.copy:
     src: "manifests.yml"
     dest: /tmp/manifests.yml
+    owner: root
+    group: root
+    mode: "0644"
 - name: Apply Cilium manifests
   kubernetes.core.k8s:
     state: present

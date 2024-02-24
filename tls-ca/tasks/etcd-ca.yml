@@ -29,13 +29,13 @@
     key_usage:
       - keyCertSign
       - cRLSign
-    path: "{{ temp_file.path }}"
+    path: "{{ temp_file.dest }}"
     privatekey_path: /etc/kubernetes/pki/etcd/ca.key
     state: present
 - name: Generate etcd CA certificate
   community.crypto.x509_certificate:
     path: /etc/kubernetes/pki/etcd/ca.crt
-    csr_path: "{{ temp_file.path }}"
+    csr_path: "{{ temp_file.dest }}"
     privatekey_path: /etc/kubernetes/pki/etcd/ca.key
     provider: selfsigned
     state: present
@@ -47,3 +47,4 @@
     mode: "0400"
   loop:
     - ca.crt
+    - ca.key

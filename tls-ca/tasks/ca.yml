@@ -22,14 +22,14 @@
     key_usage:
       - keyCertSign
       - cRLSign
-    path: "{{ temp_file.path }}"
+    path: "{{ temp_file.dest }}"
     privatekey_path: /vagrant/share/ca.key
     state: present
 - name: Generate CA certificate
   community.crypto.x509_certificate:
     path: /vagrant/share/ca.crt
     privatekey_path: /vagrant/share/ca.key
-    csr_path: "{{ temp_file.path }}"
+    csr_path: "{{ temp_file.dest }}"
     provider: selfsigned
     state: present
 - name: Copy cert to kubernetes PKI dir
