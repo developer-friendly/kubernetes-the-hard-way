@@ -20,10 +20,10 @@
     mode: '0644'
     owner: root
     group: root
+  notify: reload systemd
 - name: Start etcd service
   ansible.builtin.systemd_service:
     name: etcd.service
     state: started
     enabled: true
     daemon_reload: true
-  failed_when: false
