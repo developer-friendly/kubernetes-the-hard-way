@@ -5,4 +5,3 @@ is_controlplane: false
 etcd_peer_name: "etcd-{{ ansible_hostname }}"
 etcd_initial_cluster_state: new
 etcd_initial_cluster_token: k8s-etcd-cluster
-etcd_initial_cluster:
