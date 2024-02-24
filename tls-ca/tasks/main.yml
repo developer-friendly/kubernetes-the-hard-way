@@ -1,0 +1,4 @@
+---
+- name: Generate CA TLS certificate
+  ansible.builtin.include_tasks:
+    file: ca.yml
