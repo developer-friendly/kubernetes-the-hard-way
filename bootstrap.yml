@@ -31,18 +31,11 @@
         name: haproxy
       tags:
         - haproxy
-    # - name: Import tls role
-    #   ansible.builtin.include_role:
-    #     name: tls
-    #   vars:
-    #     create_ca: "{{ inventory_hostname == 'node0' }}"
-    #     create_apiserver: "{{ inventory_hostname == 'node0' }}"
-    #     create_controller_manager: "{{ inventory_hostname == 'node0' }}"
-    #     create_scheduler: "{{ inventory_hostname == 'node0' }}"
-    #     create_admin: "{{ inventory_hostname == 'node0' }}"
-    #     create_serviceaccount: "{{ inventory_hostname == 'node0' }}"
-    #   tags:
-    #     - tls
+    - name: Import tls role
+      ansible.builtin.include_role:
+        name: tls
+      tags:
+        - tls
     # - name: Import kubeconfig role
     #   ansible.builtin.include_role:
     #     name: kubeconfig
