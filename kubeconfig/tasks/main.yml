@@ -1,9 +1,14 @@
 ---
+- name: Ensure /var/lib/kubernetes exists
+  ansible.builtin.file:
+    path: /var/lib/kubernetes
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
 - name: Set up KubeConfig for control plane
   ansible.builtin.include_tasks:
     file: controlplane.yml
-  when: is_controlplane
 - name: Set up KubeConfig for worker nodes
   ansible.builtin.include_tasks:
     file: kubelet.yml
-  when: is_worker

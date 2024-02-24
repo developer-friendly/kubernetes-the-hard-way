@@ -16,4 +16,10 @@
     name: "{{ ansible_user }}"
     groups: adm
     append: true
-  become: true
+- name: Ensure CA directory exists
+  ansible.builtin.file:
+    path: /etc/kubernetes/pki
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"

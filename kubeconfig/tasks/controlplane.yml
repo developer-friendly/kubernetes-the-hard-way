@@ -1,11 +1,4 @@
 ---
-- name: Ensure /var/lib/kubernetes exists
-  ansible.builtin.file:
-    path: /var/lib/kubernetes
-    state: directory
-    mode: "0755"
-    owner: root
-    group: root
 - name: Generate KubeConfig for Kubernetes components
   ansible.builtin.template:
     src: kubeconfig.yml.j2

@@ -21,28 +21,27 @@
         name: prerequisites
       tags:
         - prerequisites
-    - name: Import tls-ca role
-      ansible.builtin.include_role:
-        name: tls-ca
-      tags:
-        - tls-ca
     - name: Import haproxy role
       ansible.builtin.include_role:
         name: haproxy
       tags:
         - haproxy
+    - name: Import tls CA role
+      ansible.builtin.include_role:
+        name: tls-ca
+      tags:
+        - tls-ca
+      run_once: true
     - name: Import tls role
       ansible.builtin.include_role:
         name: tls
       tags:
         - tls
-    # - name: Import kubeconfig role
-    #   ansible.builtin.include_role:
-    #     name: kubeconfig
-    #   vars:
-    #     is_controlplane: "{{ inventory_hostname == 'node0' }}"
-    #   tags:
-    #     - kubeconfig
+    - name: Import kubeconfig role
+      ansible.builtin.include_role:
+        name: kubeconfig
+      tags:
+        - kubeconfig
     # - name: Import encryption role
     #   ansible.builtin.include_role:
     #     name: encryption
