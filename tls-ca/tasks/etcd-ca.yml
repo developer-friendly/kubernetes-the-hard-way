@@ -1,14 +1,18 @@
 - name: Generate an empty temp file for CSR
-  ansible.builtin.tempfile:
-    state: file
+  ansible.builtin.file:
+    path: /tmp/etcd-ca.csr
+    state: touch
+    owner: root
+    group: root
+    mode: "0400"
   register: temp_file
 - name: Ensure the etcd directories exist
   ansible.builtin.file:
-    path: '{{ item }}'
+    path: "{{ item }}"
     state: directory
-    owner: 'root'
-    group: 'root'
-    mode: '0750'
+    owner: "root"
+    group: "root"
+    mode: "0750"
   loop:
     - /etc/kubernetes/pki/etcd
 - name: Generate etcd CA private key
@@ -40,6 +44,6 @@
     src: /etc/kubernetes/pki/etcd/{{ item }}
     dest: /vagrant/share/etcd-{{ item }}
     remote_src: true
-    mode: '0400'
+    mode: "0400"
   loop:
     - ca.crt

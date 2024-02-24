@@ -1,7 +1,11 @@
 ---
 - name: Generate an empty temp file for CSR
-  ansible.builtin.tempfile:
-    state: file
+  ansible.builtin.file:
+    path: /tmp/ca.csr
+    state: touch
+    owner: root
+    group: root
+    mode: "0400"
   register: temp_file
 - name: Generate CA private key
   community.crypto.openssl_privatekey:
