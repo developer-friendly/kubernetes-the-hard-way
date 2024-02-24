@@ -12,13 +12,6 @@
 - name: Ensure key_secret is populated
   when: encryption_secret_file.content is not defined
   block:
-    - name: Ensure /vagrant/share/ exists
-      ansible.builtin.file:
-        path: /vagrant/share/
-        state: directory
-        mode: '0755'
-        owner: root
-        group: root
     - name: Write secret to file
       ansible.builtin.copy:
         content: '{{ key_secret }}'

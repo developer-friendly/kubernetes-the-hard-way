@@ -1,36 +1,6 @@
----
-- name: Generate CA private key
-  community.crypto.openssl_privatekey:
-    path: /vagrant/share/ca.key
-    type: "{{ k8s_privatekey_type }}"
-    state: present
-- name: Generate CA CSR to provide ALT names and other options
-  community.crypto.openssl_csr:
-    basicConstraints_critical: true
-    basic_constraints:
-      - CA:TRUE
-    common_name: kubernetes-ca
-    keyUsage_critical: true
-    key_usage:
-      - keyCertSign
-      - cRLSign
-    path: /vagrant/share/ca.csr
-    privatekey_path: /vagrant/share/ca.key
-    state: present
-- name: Generate CA certificate
-  community.crypto.x509_certificate:
-    path: /vagrant/share/ca.crt
-    privatekey_path: /vagrant/share/ca.key
-    csr_path: /vagrant/share/ca.csr
-    provider: selfsigned
-    state: present
-- name: Copy cert to kubernetes PKI dir
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: /etc/kubernetes/pki/
-    remote_src: true
-    owner: root
-    group: root
-    mode: "0400"
-  loop:
-    - /vagrant/share/ca.crt
+- name: CA
+  ansible.builtin.include_tasks:
+    file: ca.yml
+- name: Create admin operator TLS certificate
+  ansible.builtin.include_tasks:
+    file: admin.yml

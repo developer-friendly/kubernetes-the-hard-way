@@ -42,17 +42,15 @@
         name: kubeconfig
       tags:
         - kubeconfig
-    # - name: Import encryption role
-    #   ansible.builtin.include_role:
-    #     name: encryption
-    #   when: inventory_hostname == 'node0'
-    #   tags:
-    #     - encryption
+    - name: Import encryption role
+      ansible.builtin.include_role:
+        name: encryption
+      run_once: true
+      tags:
+        - encryption
     # - name: Import etcd role
     #   ansible.builtin.include_role:
     #     name: etcd
-    #   vars:
-    #     is_controlplane: "{{ inventory_hostname == 'node0' }}"
     #   tags:
     #     - etcd
     # - name: Import k8s role

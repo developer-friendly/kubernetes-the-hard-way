@@ -10,10 +10,6 @@
 - name: Generate scheduler TLS certificate
   ansible.builtin.include_tasks:
     file: scheduler.yml
-- name: Create admin operator TLS certificate
-  ansible.builtin.include_tasks:
-    file: admin.yml
-  when: lookup('file', '/vagrant/share/admin.crt', errors='ignore') is not defined
 - name: Create service accounts TLS certificate
   ansible.builtin.include_tasks:
     file: serviceaccount.yml
