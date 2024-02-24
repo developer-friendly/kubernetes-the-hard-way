@@ -25,11 +25,11 @@
         name: tls-ca
       tags:
         - tls-ca
-    # - name: Import haproxy role
-    #   ansible.builtin.include_role:
-    #     name: haproxy
-    #   tags:
-    #     - haproxy
+    - name: Import haproxy role
+      ansible.builtin.include_role:
+        name: haproxy
+      tags:
+        - haproxy
     # - name: Import tls role
     #   ansible.builtin.include_role:
     #     name: tls

@@ -1,0 +1,33 @@
+- name: Install common software properties
+  ansible.builtin.apt:
+    name: software-properties-common
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ cache_valid_time }}"
+- name: Add apt repository
+  ansible.builtin.apt_repository:
+    repo: "ppa:vbernat/haproxy-{{ haproxy_version }}"
+    state: present
+- name: Install haproxy {{ haproxy_version }}
+  ansible.builtin.apt:
+    name: haproxy={{ haproxy_version }}.*
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ cache_valid_time }}"
+- name: Copy config file
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: haproxy
+    group: haproxy
+    mode: "0644"
+  notify: Reload haproxy
+  tags:
+    - haproxy-config
+    - never
+- name: Start the systemd service
+  ansible.builtin.systemd:
+    name: haproxy
+    state: started
+    enabled: true
+    daemon_reload: true
