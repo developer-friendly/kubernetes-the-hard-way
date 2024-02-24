@@ -15,7 +15,7 @@
   #   cilium_install_args: --set kubeProxyReplacement=true
   #   k8s_version: v1.29.2
   environment:
-    KUBECONFIG: /vagrant/share/admin.yml
+    KUBECONFIG: /var/lib/kubernetes/admin.kubeconfig
   tasks:
     - name: Import prerequisites role
       ansible.builtin.include_role:
@@ -59,17 +59,17 @@
         name: k8s
       tags:
         - k8s
+    - name: Import cilium role
+      ansible.builtin.include_role:
+        name: cilium
+      run_once: true
+      tags:
+        - cilium
     # - name: Import worker role
     #   ansible.builtin.include_role:
     #     name: worker
     #   tags:
     #     - worker
-    # - name: Import cilium role
-    #   ansible.builtin.include_role:
-    #     name: cilium
-    #   when: inventory_hostname == 'node0'
-    #   tags:
-    #     - cilium
     # - name: Import CoreDNS role
     #   ansible.builtin.include_role:
     #     name: coredns
