@@ -27,6 +27,7 @@ defaults
     log     global
     mode    http
     option  httplog
+    option  tcplog
     option  dontlognull
     timeout connect 5000
     timeout client  50000
@@ -46,37 +47,15 @@ frontend stats
     stats uri /stats
     stats refresh 10s
 
-frontend http
-    bind :80
+frontend kube_apiserver
+  mode tcp
+  bind :443
+  default_backend kube_apiserver
 
-    redirect scheme https    if !{ ssl_fc }
-
-
-frontend https
-    bind :443 ssl crt /etc/haproxy/certs/ ssl-min-ver TLSv1.2
-
-    stick-table  type ip  size 100k  expire 30s  store http_req_rate(10s)
-    http-request track-sc0 src
-    http-request deny deny_status 429 if { sc_http_req_rate(0) gt 200 }
-    http-response set-header Strict-Transport-Security max-age=16000000;\ includeSubDomains;\ preload;
-
-    acl frontend       hdr(host) -i {{ frontend_domain }}
-    acl backend        hdr(host) -i {{ backend_domain }}
-    acl backend_path   path_beg  /licenseware
-
-    use_backend frontend if frontend
-    use_backend backend  if backend backend_path
-
-    default_backend no-match
-
-backend backend
-    server backend localhost:5000 check inter 30
-    option httpchk GET /healthz
-
-backend frontend
-    server frontend localhost:8080 check inter 30
-    option httpchk GET /
-
-backend no-match
-  mode http
-  http-request deny deny_status 404
+backend kube_apiserver
+  mode tcp
+  option tcp-check
+  balance leastconn
+{% for apiserver_ip in apiserver_ips %}
+  server kube-apiserver-{{ loop.index }} {{ apiserver_ip }}:{{ apiserver_port }} check
+{% endfor %}

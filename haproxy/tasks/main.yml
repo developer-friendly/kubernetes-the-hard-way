@@ -22,9 +22,6 @@
     group: haproxy
     mode: "0644"
   notify: Reload haproxy
-  tags:
-    - haproxy-config
-    - never
 - name: Start the systemd service
   ansible.builtin.systemd:
     name: haproxy

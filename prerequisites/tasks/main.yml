@@ -11,3 +11,9 @@
     state: present
     update_cache: true
     cache_valid_time: "{{ cache_valid_time }}"
+- name: Add current user to adm group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: adm
+    append: true
+  become: true
