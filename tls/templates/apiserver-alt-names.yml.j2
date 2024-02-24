@@ -1,0 +1,10 @@
+- IP:127.0.0.1
+{% for apiserver_ip in apiserver_ips %}
+- IP:{{ apiserver_ip }}
+{% endfor %}
+- DNS:localhost
+- DNS:{{ inventory_hostname }}
+- DNS:kubernetes
+- DNS:kubernetes.default
+- DNS:kubernetes.default.svc
+- DNS:kubernetes.default.svc.cluster.local

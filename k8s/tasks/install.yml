@@ -14,12 +14,10 @@
     owner: root
     group: root
     mode: "0755"
-    creates: "{{ item }}"
     extra_opts:
       - --strip-components=3
-  loop:
-    - kube-apiserver
-    - kube-controller-manager
-    - kube-scheduler
-    - kubelet
-    - kubectl
+      - kubernetes/server/bin/kube-apiserver
+      - kubernetes/server/bin/kube-controller-manager
+      - kubernetes/server/bin/kube-scheduler
+      - kubernetes/server/bin/kubectl
+      - kubernetes/server/bin/kubelet

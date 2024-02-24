@@ -16,3 +16,6 @@
 - name: CA Cert
   ansible.builtin.include_tasks:
     file: ca-cert.yml
+- name: Admin
+  ansible.builtin.include_tasks:
+    file: admin.yml

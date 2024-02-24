@@ -1,0 +1,11 @@
+- name: Copy CA cert to machine
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/kubernetes/pki/
+    owner: root
+    group: root
+    mode: "0640"
+    remote_src: true
+  loop:
+    - /vagrant/share/admin.crt
+    - /vagrant/share/admin.key

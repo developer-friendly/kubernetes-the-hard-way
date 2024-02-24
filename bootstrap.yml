@@ -54,12 +54,11 @@
         name: etcd
       tags:
         - etcd
-    # - name: Import k8s role
-    #   ansible.builtin.include_role:
-    #     name: k8s
-    #   when: inventory_hostname == 'node0'
-    #   tags:
-    #     - k8s
+    - name: Import k8s role
+      ansible.builtin.include_role:
+        name: k8s
+      tags:
+        - k8s
     # - name: Import worker role
     #   ansible.builtin.include_role:
     #     name: worker

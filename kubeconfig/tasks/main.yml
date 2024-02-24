@@ -12,3 +12,6 @@
 - name: Set up KubeConfig for worker nodes
   ansible.builtin.include_tasks:
     file: kubelet.yml
+- name: Admin
+  ansible.builtin.include_tasks:
+    file: admin.yml

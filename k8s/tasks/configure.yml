@@ -26,8 +26,9 @@
     - kube-apiserver
     - kube-controller-manager
     - kube-scheduler
+  notify: Reload systemd
 - name: Start all the services
-  ansible.builtin.systemd_service:
+  ansible.builtin.systemd:
     name: '{{ item }}'
     state: started
     enabled: true

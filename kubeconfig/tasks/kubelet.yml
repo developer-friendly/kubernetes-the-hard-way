@@ -7,5 +7,6 @@
     owner: root
     group: root
   vars:
+    kube_apiserver_address: localhost
     client_cert_path: /etc/kubernetes/pki/kubelet.crt
     client_key_path: /etc/kubernetes/pki/kubelet.key
