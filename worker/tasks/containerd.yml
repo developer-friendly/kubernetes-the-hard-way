@@ -3,7 +3,7 @@
     url: "{{ containerd_url }}"
     dest: /tmp/{{ containerd_url | basename }}
     checksum: "sha256:{{ lookup('url', containerd_checksum_url) | split | first }}"
-    mode: "0755"
+    mode: "0444"
   register: containerd_download
 - name: Create /tmp/containerd directory
   ansible.builtin.file:
@@ -39,4 +39,3 @@
     mode: "0644"
     owner: root
     group: root
-  register: containerd_service_download

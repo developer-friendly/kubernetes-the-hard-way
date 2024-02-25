@@ -1,3 +1,4 @@
+---
 cluster_cidr: 10.200.0.0/16
 cluster_dns: 10.32.0.10
 cluster_domain: cluster.local
@@ -16,3 +17,4 @@ kubelet_url: https://dl.k8s.io/release/{{ k8s_version }}/bin/linux/amd64/kubelet
 pod_subnet_cidr_v4: 10.88.0.0/16
 pod_subnet_cidr_v6: 2001:4860:4860::/64
 runc_url: https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+runc_checksum: aadeef400b8f05645768c1476d1023f7875b78f52c7ff1967a6dbce236b8cbd8

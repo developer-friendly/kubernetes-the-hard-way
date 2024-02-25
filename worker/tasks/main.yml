@@ -16,15 +16,9 @@
 - name: Install kubelet
   ansible.builtin.import_tasks:
     file: kubelet.yml
-- name: Install worker binaries
-  ansible.builtin.import_tasks:
-    file: binaries.yml
 - name: Configure CNI
   ansible.builtin.import_tasks:
     file: cni-config.yml
-- name: Configure kubelet
-  ansible.builtin.import_tasks:
-    file: kubelet-config.yml
 - name: Finalize configuration
   ansible.builtin.import_tasks:
     file: finalize.yml

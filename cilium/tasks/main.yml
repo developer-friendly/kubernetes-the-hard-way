@@ -1,11 +1,5 @@
-- name: Copy manifests.yml
-  ansible.builtin.copy:
-    src: "manifests.yml"
-    dest: /tmp/manifests.yml
-    owner: root
-    group: root
-    mode: "0644"
-- name: Apply Cilium manifests
-  kubernetes.core.k8s:
-    state: present
-    src: /tmp/manifests.yml
+---
+- name: Cilium
+  ansible.builtin.include_tasks:
+    file: cilium.yml
+  run_once: true

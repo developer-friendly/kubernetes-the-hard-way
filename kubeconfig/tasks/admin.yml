@@ -16,7 +16,7 @@
   ansible.builtin.template:
     src: kubeconfig.yml.j2
     dest: /vagrant/share/admin.yml
-    mode: "0640"
+    mode: "0400"
   vars:
     kube_apiserver_address: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
     ca_cert_path: ./ca.crt

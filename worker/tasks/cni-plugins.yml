@@ -2,7 +2,7 @@
   ansible.builtin.get_url:
     url: "{{ cni_plugins_url }}"
     dest: /tmp/{{ cni_plugins_url | basename }}
-    mode: "0764"
+    mode: "0644"
     checksum: "sha256:{{ lookup('url', cni_plugins_checksum_url) | split | first }}"
   register: cni_plugins
 - name: Ensure cni-plugins directory exists

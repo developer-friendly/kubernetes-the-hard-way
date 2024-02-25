@@ -19,6 +19,6 @@
     - encryption
     - etcd
     - k8s
+    - worker
     - cilium
-    # - worker
     # - coredns

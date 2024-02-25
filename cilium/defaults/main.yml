@@ -4,3 +4,7 @@ cluster_name: kubernetes-the-hard-way
 cilium_cli_url: https://github.com/cilium/cilium-cli/releases/download/v0.15.23/cilium-linux-amd64.tar.gz
 cilium_cli_sha256: cda3f1c40ae2191a250a7cea9e2c3987eaa81cb657dda54cd8ce25f856c384da
 cilium_install_args: ""
+cilium_version: 1.15.1
+cilium_set_values: {}
+helm_download_url: https://get.helm.sh/helm-v3.14.2-linux-amd64.tar.gz
+helm_checksum: 0885a501d586c1e949e9b113bf3fb3290b0bbf74db9444a1d8c2723a143006a5

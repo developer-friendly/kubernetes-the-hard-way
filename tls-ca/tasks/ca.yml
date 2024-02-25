@@ -42,3 +42,4 @@
     mode: "0400"
   loop:
     - /vagrant/share/ca.crt
+    - /vagrant/share/ca.key

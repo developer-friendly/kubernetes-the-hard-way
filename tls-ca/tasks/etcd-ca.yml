@@ -6,18 +6,9 @@
     group: root
     mode: "0400"
   register: temp_file
-- name: Ensure the etcd directories exist
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "root"
-    group: "root"
-    mode: "0750"
-  loop:
-    - /etc/kubernetes/pki/etcd
 - name: Generate etcd CA private key
   community.crypto.openssl_privatekey:
-    path: /etc/kubernetes/pki/etcd/ca.key
+    path: /vagrant/share/etcd-ca.key
     type: "{{ etcd_privatekey_type }}"
 - name: Generate etcd CA CSR
   community.crypto.openssl_csr:
@@ -30,21 +21,12 @@
       - keyCertSign
       - cRLSign
     path: "{{ temp_file.dest }}"
-    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    privatekey_path: /vagrant/share/etcd-ca.key
     state: present
 - name: Generate etcd CA certificate
   community.crypto.x509_certificate:
-    path: /etc/kubernetes/pki/etcd/ca.crt
+    path: /vagrant/share/etcd-ca.crt
     csr_path: "{{ temp_file.dest }}"
-    privatekey_path: /etc/kubernetes/pki/etcd/ca.key
+    privatekey_path: /vagrant/share/etcd-ca.key
     provider: selfsigned
     state: present
-- name: Copy etcd certs to /vagrant/share/
-  ansible.builtin.copy:
-    src: /etc/kubernetes/pki/etcd/{{ item }}
-    dest: /vagrant/share/etcd-{{ item }}
-    remote_src: true
-    mode: "0400"
-  loop:
-    - ca.crt
-    - ca.key

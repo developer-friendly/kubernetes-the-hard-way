@@ -4,5 +4,7 @@
     dest: /usr/local/bin/kubectl
     owner: root
     group: root
-    mode: "0755"
-    checksum: "sha256:{{ lookup('url', kubectl_checksum_url) | split | first }}"
+    mode: "0555"
+    checksum: "sha256:{{ lookup('url', kubectl_checksum_url) }}"
+  tags:
+    - never

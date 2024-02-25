@@ -7,7 +7,21 @@
       - socat
     state: present
     update_cache: true
-    cache_valid_time: 604800
+    cache_valid_time: "{{ cache_valid_time }}"
 - name: Disable swap
   ansible.builtin.command: swapoff -a
   when: ansible_swaptotal_mb > 0
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - /etc/cni/net.d
+    - /opt/cni/bin
+    - /var/lib/kubelet
+    - /var/lib/kubernetes
+    - /var/run/kubernetes
+    - /etc/kubernetes/manifests

@@ -6,3 +6,34 @@
     group: root
     mode: "0755"
     checksum: "sha256:{{ lookup('url', kubelet_checksum_url) | split | first }}"
+  tags:
+    - never
+- name: Ensure kubelet dir exists
+  ansible.builtin.file:
+    path: /var/lib/kubelet
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Copy kubelet kubeconfig
+  ansible.builtin.copy:
+    src: /var/lib/kubernetes/kubelet.kubeconfig
+    dest: /var/lib/kubelet/kubeconfig
+    owner: root
+    group: root
+    mode: "0644"
+    remote_src: true
+- name: Create kubelet config
+  ansible.builtin.template:
+    src: kubelet-config.yml.j2
+    dest: "{{ kubelet_config_path }}"
+    mode: "0644"
+    owner: root
+    group: root
+- name: Create kubelet systemd service
+  ansible.builtin.template:
+    src: kubelet.service.j2
+    dest: /etc/systemd/system/kubelet.service
+    mode: "0644"
+    owner: root
+    group: root

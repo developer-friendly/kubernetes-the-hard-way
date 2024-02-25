@@ -2,7 +2,7 @@
   ansible.builtin.get_url:
     url: "{{ crictl_url }}"
     dest: /tmp/
-    mode: "0764"
+    mode: "0444"
     checksum: "sha256:{{ lookup('url', crictl_checksum_url) | split | first }}"
   register: crictl_download
 - name: Extract crictl binary

@@ -1,3 +1,12 @@
+- name: Ensure the etcd directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0750"
+  loop:
+    - /etc/kubernetes/pki/etcd
 - name: Copy CA cert to machine
   ansible.builtin.copy:
     src: "{{ item }}"

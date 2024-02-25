@@ -1,30 +1,29 @@
+- name: Generate an empty temp file for CSR
+  ansible.builtin.file:
+    path: /tmp/admin.csr
+    state: touch
+    owner: root
+    group: root
+    mode: "0400"
+  register: temp_file
 - name: Generate Admin Operator private key
   community.crypto.openssl_privatekey:
-    path: /etc/kubernetes/pki/admin.key
+    path: /vagrant/share/admin.key
     type: "{{ k8s_privatekey_type }}"
 - name: Generate Admin Operator CSR
   community.crypto.openssl_csr:
-    path: /etc/kubernetes/pki/admin.csr
-    privatekey_path: /etc/kubernetes/pki/admin.key
+    path: "{{ temp_file.path }}"
+    privatekey_path: /vagrant/share/admin.key
     common_name: 'admin'
     subject:
       O: 'system:masters'
       OU: 'Kubernetes The Hard Way'
 - name: Create Admin Operator TLS certificate using CA key and cert
   community.crypto.x509_certificate:
-    path: /etc/kubernetes/pki/admin.crt
-    csr_path: /etc/kubernetes/pki/admin.csr
-    privatekey_path: /etc/kubernetes/pki/admin.key
+    path: /vagrant/share/admin.crt
+    csr_path: "{{ temp_file.path }}"
+    privatekey_path: /vagrant/share/admin.key
     ownca_path: /vagrant/share/ca.crt
     ownca_privatekey_path: /vagrant/share/ca.key
     provider: ownca
     ownca_not_after: +365d
-- name: Copy Admin Operator TLS certificate to /vagrant/share/
-  ansible.builtin.copy:
-    src: /etc/kubernetes/pki/{{ item }}
-    dest: /vagrant/share/
-    mode: "0400"
-    remote_src: true
-  loop:
-    - admin.crt
-    - admin.key
