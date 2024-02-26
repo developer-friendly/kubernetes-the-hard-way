@@ -1,0 +1,39 @@
+---
+- name: Ensure kube-proxy dir exists
+  ansible.builtin.file:
+    path: /var/lib/kube-proxy
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Place kube-proxy config
+  ansible.builtin.template:
+    src: kube-proxy.conf.yml.j2
+    dest: /var/lib/kube-proxy/config.yml
+    owner: root
+    group: root
+    mode: "0444"
+  notify: Restart kube-proxy
+- name: Place kube-proxy systemd unit
+  ansible.builtin.template:
+    src: kube-proxy.service.j2
+    dest: /etc/systemd/system/kube-proxy.service
+    owner: root
+    group: root
+    mode: "0444"
+  notify: Restart kube-proxy
+- name: Place kube-proxy kubeconfig file
+  ansible.builtin.copy:
+    src: /var/lib/kubernetes/kube-proxy.kubeconfig
+    dest: /var/lib/kube-proxy/kubeconfig
+    owner: root
+    group: root
+    mode: "0444"
+    remote_src: true
+  notify: Restart kube-proxy
+- name: Start the kube-proxy service
+  ansible.builtin.systemd:
+    name: kube-proxy
+    state: started
+    enabled: true
+    daemon_reload: true

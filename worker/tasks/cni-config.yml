@@ -5,6 +5,8 @@
     owner: root
     group: root
     mode: "0755"
+  tags:
+    - never
 - name: Configure CNI Networking
   ansible.builtin.copy:
     content: |
@@ -40,6 +42,8 @@
     owner: root
     group: root
     mode: "0640"
+  tags:
+    - never
 - name: Ensure containerd directory exists
   ansible.builtin.file:
     path: /etc/containerd

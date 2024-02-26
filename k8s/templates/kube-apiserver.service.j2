@@ -5,13 +5,13 @@ Documentation=https://github.com/kubernetes/kubernetes
 [Service]
 ExecStart=/usr/local/bin/kube-apiserver \
   --allow-privileged=true \
-  --apiserver-count=3 \
   --audit-log-maxage=30 \
   --audit-log-maxbackup=3 \
   --audit-log-maxsize=100 \
   --audit-log-path=/var/log/audit.log \
   --authorization-mode=Node,RBAC \
   --bind-address={{ bind_address }} \
+  --external-hostname={{ bind_address }} \
   --client-ca-file=/etc/kubernetes/pki/ca.crt \
   --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
   --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt \

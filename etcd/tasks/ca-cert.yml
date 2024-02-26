@@ -10,7 +10,7 @@
 - name: Copy CA cert to machine
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: /etc/kubernetes/etcd/pki/
+    dest: /etc/kubernetes/pki/etcd/
     owner: root
     group: root
     mode: "0640"

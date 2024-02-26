@@ -5,6 +5,8 @@
 - name: Create etcd certificates
   ansible.builtin.import_tasks:
     file: server-cert.yml
+  tags:
+    - etcd-tls-server
 - name: Configure the server
   ansible.builtin.import_tasks:
     file: configure.yml

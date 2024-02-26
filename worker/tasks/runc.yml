@@ -6,3 +6,5 @@
     use_proxy: false
     checksum: "sha256:{{ runc_checksum }}"
   when: runc_url.endswith('runc.amd64')
+  tags:
+    - download

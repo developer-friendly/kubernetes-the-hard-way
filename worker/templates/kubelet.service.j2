@@ -9,7 +9,7 @@ ExecStart=/usr/local/bin/kubelet \
   --config {{ kubelet_config_path }} \
   --container-runtime-endpoint unix:///var/run/containerd/containerd.sock \
   --kubeconfig /var/lib/kubelet/kubeconfig \
-  --pod-manifest-path /etc/kubernetes/manifests \
+  --pod-manifest-path "{{ k8s_static_pods_dir }}" \
   --register-node \
   --v 2
 Restart=on-failure

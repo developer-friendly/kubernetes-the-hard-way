@@ -19,3 +19,6 @@
 - name: Admin
   ansible.builtin.include_tasks:
     file: admin.yml
+- name: Kube proxy
+  ansible.builtin.include_tasks:
+    file: kube-proxy.yml

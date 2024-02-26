@@ -6,6 +6,8 @@
     owner: root
     group: root
     mode: "0444"
+  tags:
+    - download
 - name: Extract helm
   ansible.builtin.unarchive:
     src: /tmp/helm-linux-amd64.tar.gz
@@ -14,12 +16,19 @@
     extra_opts:
       - --strip-components=1
       - --wildcards
-      - '**/helm'
+      - "**/helm"
 - name: Add cilium repository
   kubernetes.core.helm_repository:
     name: cilium
     repo_url: https://helm.cilium.io/
     state: present
+- name: Copy cilium values file
+  ansible.builtin.template:
+    src: values.yml.j2
+    dest: /tmp/cilium-values.yml
+    owner: root
+    group: root
+    mode: "0444"
 - name: Install cilium
   kubernetes.core.helm:
     chart_version: "{{ cilium_version }}"
@@ -28,9 +37,10 @@
     release_state: present
     chart_ref: cilium/cilium
     update_repo_cache: true
-    set_values: "{{ lookup('template', 'cilium_values.yml.j2') | from_yaml }}"
+    values_files:
+      - /tmp/cilium-values.yml
     wait: true
     purge: true
     atomic: true
     history_max: 10
-    timeout: 10m
+    timeout: 2m

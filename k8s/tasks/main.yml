@@ -8,3 +8,6 @@
 - name: Configure Kubelet
   ansible.builtin.import_tasks:
     file: kubelet.yml
+- name: Configure Kube proxy
+  ansible.builtin.import_tasks:
+    file: kube-proxy.yml

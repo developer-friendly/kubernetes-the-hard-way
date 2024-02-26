@@ -1,8 +1,12 @@
 - name: Reload systemd
   ansible.builtin.systemd:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: restarted
   loop:
     - kube-apiserver
     - kube-controller-manager
     - kube-scheduler
+- name: Restart kube-proxy
+  ansible.builtin.systemd:
+    name: kube-proxy
+    state: restarted

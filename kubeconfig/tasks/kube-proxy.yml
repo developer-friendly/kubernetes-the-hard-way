@@ -1,0 +1,11 @@
+- name: Generate KubeConfig for kube-proxy
+  ansible.builtin.template:
+    src: kubeconfig.yml.j2
+    dest: /var/lib/kubernetes/kube-proxy.kubeconfig
+    mode: "0640"
+    owner: root
+    group: root
+  vars:
+    kube_apiserver_address: localhost
+    client_cert_path: /etc/kubernetes/pki/kube-proxy.crt
+    client_key_path: /etc/kubernetes/pki/kube-proxy.key

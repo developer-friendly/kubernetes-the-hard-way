@@ -8,6 +8,8 @@
     state: present
     update_cache: true
     cache_valid_time: "{{ cache_valid_time }}"
+  tags:
+    - download
 - name: Disable swap
   ansible.builtin.command: swapoff -a
   when: ansible_swaptotal_mb > 0
@@ -24,4 +26,4 @@
     - /var/lib/kubelet
     - /var/lib/kubernetes
     - /var/run/kubernetes
-    - /etc/kubernetes/manifests
+    - "{{ k8s_static_pods_dir }}"

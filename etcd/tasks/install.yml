@@ -5,6 +5,8 @@
     dest: /tmp/etcd-linux-amd64.tar.gz
     mode: "0644"
     checksum: sha256:{{ etcd_checksum }}
+  tags:
+    - download
 - name: Ensure gzip is installed
   ansible.builtin.package:
     name: gzip
@@ -23,3 +25,4 @@
   loop:
     - etcd
     - etcdctl
+  notify: reload systemd

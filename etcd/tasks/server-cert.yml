@@ -1,3 +1,10 @@
+- name: Ensure pki dir exists
+  ansible.builtin.file:
+    path: /etc/kubernetes/pki/etcd
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
 - name: Generate etcd server private key
   community.crypto.openssl_privatekey:
     path: /etc/kubernetes/pki/etcd/server.key
@@ -34,3 +41,5 @@
     ownca_path: /vagrant/share/etcd-ca.crt
     ownca_privatekey_path: /vagrant/share/etcd-ca.key
     ownca_not_after: +365d
+  register: etcd_server_certificate
+  notify: reload systemd

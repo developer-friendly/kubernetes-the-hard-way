@@ -6,6 +6,8 @@
     mode: "0764"
     owner: root
     group: root
+  tags:
+    - download
 - name: Extract binaries to system path
   ansible.builtin.unarchive:
     src: /tmp/kubernetes-server-linux-amd64.tar.gz
@@ -21,3 +23,4 @@
       - kubernetes/server/bin/kube-scheduler
       - kubernetes/server/bin/kubectl
       - kubernetes/server/bin/kubelet
+      - kubernetes/server/bin/kube-proxy

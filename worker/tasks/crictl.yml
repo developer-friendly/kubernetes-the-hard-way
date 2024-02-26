@@ -5,6 +5,8 @@
     mode: "0444"
     checksum: "sha256:{{ lookup('url', crictl_checksum_url) | split | first }}"
   register: crictl_download
+  tags:
+    - download
 - name: Extract crictl binary
   ansible.builtin.unarchive:
     src: "{{ crictl_download.dest }}"

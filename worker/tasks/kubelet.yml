@@ -1,13 +1,3 @@
-- name: Download kubelet
-  ansible.builtin.get_url:
-    url: "{{ kubelet_url }}"
-    dest: /usr/local/bin/kubelet
-    owner: root
-    group: root
-    mode: "0755"
-    checksum: "sha256:{{ lookup('url', kubelet_checksum_url) | split | first }}"
-  tags:
-    - never
 - name: Ensure kubelet dir exists
   ansible.builtin.file:
     path: /var/lib/kubelet

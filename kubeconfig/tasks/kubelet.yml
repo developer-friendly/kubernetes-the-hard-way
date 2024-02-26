@@ -1,5 +1,5 @@
 ---
-- name: Generate KubeConfig for Kubernetes components
+- name: Generate KubeConfig for kubelet
   ansible.builtin.template:
     src: kubeconfig.yml.j2
     dest: /var/lib/kubernetes/kubelet.kubeconfig

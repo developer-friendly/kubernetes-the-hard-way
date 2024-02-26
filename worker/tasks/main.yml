@@ -10,9 +10,11 @@
 - name: Install cni-plugins
   ansible.builtin.import_tasks:
     file: cni-plugins.yml
-- name: Install kubectl
+  tags:
+    - never
+- name: Install crictl
   ansible.builtin.import_tasks:
-    file: kubectl.yml
+    file: crictl.yml
 - name: Install kubelet
   ansible.builtin.import_tasks:
     file: kubelet.yml

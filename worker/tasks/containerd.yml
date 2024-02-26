@@ -5,6 +5,8 @@
     checksum: "sha256:{{ lookup('url', containerd_checksum_url) | split | first }}"
     mode: "0444"
   register: containerd_download
+  tags:
+    - download
 - name: Create /tmp/containerd directory
   ansible.builtin.file:
     path: /tmp/containerd
@@ -39,3 +41,5 @@
     mode: "0644"
     owner: root
     group: root
+  tags:
+    - download

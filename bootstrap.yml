@@ -20,5 +20,5 @@
     - etcd
     - k8s
     - worker
+    - coredns
     - cilium
-    # - coredns

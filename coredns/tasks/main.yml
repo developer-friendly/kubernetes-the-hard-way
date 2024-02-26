@@ -1,0 +1,5 @@
+---
+- name: CoreDNS
+  ansible.builtin.include_tasks:
+    file: coredns.yml
+  run_once: true
