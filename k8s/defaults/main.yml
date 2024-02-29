@@ -4,3 +4,4 @@ kubernetes_public_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^1
 cluster_cidr: 10.200.0.0/16
 service_cluster_ip_range: 10.32.0.0/24
 bind_address: "{{ apiserver_ip }}"
+external_hostname: 192.168.56.100

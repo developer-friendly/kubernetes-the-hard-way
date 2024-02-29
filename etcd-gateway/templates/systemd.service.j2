@@ -1,0 +1,15 @@
+[Unit]
+Description=etcd
+Documentation=https://github.com/etcd-io/etcd
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/etcd gateway start \
+  --endpoints=192.168.56.2:2379,192.168.56.3:2379,192.168.56.4:2379 \
+  --listen-addr=192.168.56.100:2379
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

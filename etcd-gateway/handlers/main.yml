@@ -1,4 +1,4 @@
-- name: Reload etcd systemd
+- name: Reload etcd-gateway systemd
   ansible.builtin.systemd:
     name: etcd
     state: restarted

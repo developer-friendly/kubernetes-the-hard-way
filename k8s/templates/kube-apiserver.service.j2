@@ -11,7 +11,7 @@ ExecStart=/usr/local/bin/kube-apiserver \
   --audit-log-path=/var/log/audit.log \
   --authorization-mode=Node,RBAC \
   --bind-address={{ bind_address }} \
-  --external-hostname={{ bind_address }} \
+  --external-hostname={{ external_hostname }} \
   --client-ca-file=/etc/kubernetes/pki/ca.crt \
   --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
   --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt \
@@ -36,7 +36,7 @@ ExecStart=/usr/local/bin/kube-apiserver \
   --peer-advertise-ip={{ apiserver_ip }} \
   --peer-ca-file=/etc/kubernetes/pki/ca.crt \
   --feature-gates=UnknownVersionInteroperabilityProxy=true,StorageVersionAPI=true \
-  --v=2
+  --v=4
 Restart=on-failure
 RestartSec=5
 
