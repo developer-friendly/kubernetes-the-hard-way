@@ -1,5 +1,5 @@
 global
-    log stdout format raw local0
+    log /dev/log format raw local0 info
     log-send-hostname
     chroot /var/lib/haproxy
     stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
@@ -26,7 +26,6 @@ global
 defaults
     log     global
     mode    http
-    option  httplog
     option  tcplog
     option  dontlognull
     timeout connect 5000
@@ -41,7 +40,7 @@ defaults
     errorfile 504 /etc/haproxy/errors/504.http
 
 frontend stats
-    bind 127.0.0.1:8404
+    bind :8404
     http-request use-service prometheus-exporter if { path /metrics }
     stats enable
     stats uri /stats
@@ -54,8 +53,9 @@ frontend kube_apiserver
 
 backend kube_apiserver
   mode tcp
-  option tcp-check
+  option httpchk GET /healthz
+  http-check connect ssl
   balance roundrobin
 {% for apiserver_ip in apiserver_ips %}
-  server kube-apiserver-{{ loop.index }} {{ apiserver_ip }}:{{ apiserver_port }} check observe layer4  error-limit 10  on-error mark-down
+  server kube-apiserver-{{ loop.index }} {{ apiserver_ip }}:{{ apiserver_port }} check inter 3s fall 1 rise 1 verify none
 {% endfor %}

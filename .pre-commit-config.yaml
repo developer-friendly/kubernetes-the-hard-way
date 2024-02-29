@@ -14,7 +14,7 @@ repos:
       - id: sort-simple-yaml
       - id: check-added-large-files
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.83.6
+    rev: v1.88.0
     hooks:
       - id: terraform_fmt
         args:
@@ -32,9 +32,18 @@ repos:
       - id: go-imports
       - id: no-go-testing
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.22.1
+    rev: v24.2.0
     hooks:
       - id: ansible-lint
         args:
           - --fix
           - .
+  - repo: https://github.com/bridgecrewio/checkov.git
+    rev: 3.2.26
+    hooks:
+      - id: checkov
+        # - id: checkov_container
+        # - id: checkov_diff
+        # - id: checkov_diff_container
+        # - id: checkov_secrets
+        # - id: checkov_secrets_container
