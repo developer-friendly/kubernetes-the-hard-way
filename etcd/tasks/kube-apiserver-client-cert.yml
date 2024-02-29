@@ -15,7 +15,7 @@
       - DNS:{{ etcd_peer_name }}
       - DNS:{{ inventory_hostname }}
       - IP:127.0.0.1
-      - IP:{{ apiserver_ip }}
+      - IP:{{ host_ip }}
 - name: Generate kube-apiserver certificate
   community.crypto.x509_certificate:
     path: /etc/kubernetes/pki/etcd/kube-apiserver.crt

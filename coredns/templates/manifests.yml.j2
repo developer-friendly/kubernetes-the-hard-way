@@ -11,7 +11,7 @@ items:
             }
             ready
             kubernetes cluster.local in-addr.arpa ip6.arpa {
-                endpoint https://{{ apiserver_ip }}:{{ apiserver_port }}
+                endpoint https://{{ host_ip }}:{{ apiserver_port }}
                 tls /cert/coredns.crt /cert/coredns.key /cert/ca.crt
                 pods insecure
                 fallthrough in-addr.arpa ip6.arpa

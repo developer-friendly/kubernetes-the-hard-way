@@ -11,7 +11,7 @@
       O: 'system:nodes'
       OU: 'Kubernetes The Hard Way'
     subject_alt_name:
-      - IP:{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}
+      - IP:{{ host_ip }}
       - DNS:{{ inventory_hostname }}
 - name: Create kubelet TLS certificate using CA key and cert
   community.crypto.x509_certificate:

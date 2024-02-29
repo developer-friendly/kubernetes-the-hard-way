@@ -33,7 +33,7 @@ ExecStart=/usr/local/bin/kube-apiserver \
   --tls-private-key-file=/etc/kubernetes/pki/kube-apiserver.key \
   --proxy-client-cert-file=/etc/kubernetes/pki/kube-apiserver.crt \
   --proxy-client-key-file=/etc/kubernetes/pki/kube-apiserver.key \
-  --peer-advertise-ip={{ apiserver_ip }} \
+  --peer-advertise-ip={{ host_ip }} \
   --peer-ca-file=/etc/kubernetes/pki/ca.crt \
   --feature-gates=UnknownVersionInteroperabilityProxy=true,StorageVersionAPI=true \
   --v=4

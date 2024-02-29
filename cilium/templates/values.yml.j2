@@ -1,3 +1,3 @@
 kubeProxyReplacement: true
-k8sServiceHost: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+k8sServiceHost: "{{ host_ip }}"
 k8sServicePort: "6443"

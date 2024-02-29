@@ -1,7 +1,7 @@
 ---
 k8s_version: "{{ lookup('url', 'https://dl.k8s.io/release/stable.txt').split('\n')[0] }}"
-kubernetes_public_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+kubernetes_public_ip: "{{ host_ip }}"
 cluster_cidr: 10.200.0.0/16
 service_cluster_ip_range: 10.32.0.0/24
-bind_address: "{{ apiserver_ip }}"
+bind_address: "{{ host_ip }}"
 external_hostname: 192.168.56.100

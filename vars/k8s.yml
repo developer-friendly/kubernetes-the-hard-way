@@ -1,5 +1,5 @@
 ---
-apiserver_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+host_ip: "{{ ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
 k8s_version: v1.29.2
 apiserver_port: 6443
 apiserver_ips:

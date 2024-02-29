@@ -18,7 +18,7 @@
     dest: /vagrant/share/admin.yml
     mode: "0400"
   vars:
-    kube_apiserver_address: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}"
+    kube_apiserver_address: "{{ hostvars[inventory_hostname].host_ip }}"
     ca_cert_path: ./ca.crt
     client_cert_path: ./admin.crt
     client_key_path: ./admin.key
