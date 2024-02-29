@@ -39,11 +39,11 @@ repos:
           - --fix
           - .
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 3.2.26
+    rev: 3.2.28
     hooks:
       - id: checkov
-        # - id: checkov_container
-        # - id: checkov_diff
-        # - id: checkov_diff_container
-        # - id: checkov_secrets
-        # - id: checkov_secrets_container
+      # - id: checkov_diff
+      # - id: checkov_secrets
+      # - id: checkov_container
+      # - id: checkov_diff_container
+      # - id: checkov_secrets_container
