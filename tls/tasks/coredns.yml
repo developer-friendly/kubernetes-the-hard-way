@@ -1,0 +1,23 @@
+- name: Generate coredns private key
+  community.crypto.openssl_privatekey:
+    path: /etc/kubernetes/pki/coredns.key
+    type: "{{ k8s_privatekey_type }}"
+- name: Generate coredns CSR
+  community.crypto.openssl_csr:
+    path: /etc/kubernetes/pki/coredns.csr
+    privatekey_path: /etc/kubernetes/pki/coredns.key
+    common_name: system:serviceaccount:kube-system:coredns
+    subject:
+      OU: 'Kubernetes The Hard Way'
+    subject_alt_name:
+      - IP:{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses | select('match', '^192.168.56') | first }}
+      - DNS:{{ inventory_hostname }}
+- name: Create coredns TLS certificate using CA key and cert
+  community.crypto.x509_certificate:
+    path: /etc/kubernetes/pki/coredns.crt
+    csr_path: /etc/kubernetes/pki/coredns.csr
+    privatekey_path: /etc/kubernetes/pki/coredns.key
+    ownca_path: /vagrant/share/ca.crt
+    ownca_privatekey_path: /vagrant/share/ca.key
+    provider: ownca
+    ownca_not_after: +365d

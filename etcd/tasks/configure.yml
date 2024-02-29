@@ -13,7 +13,7 @@
     dest: /etc/kubernetes/pki/etcd/ca.crt
     mode: '0640'
     remote_src: true
-  notify: reload systemd
+  notify: Reload etcd systemd
 - name: Create systemd service
   ansible.builtin.template:
     src: systemd.service.j2
@@ -21,7 +21,9 @@
     mode: '0644'
     owner: root
     group: root
-  notify: reload systemd
+  tags:
+    - systemd
+  notify: Reload etcd systemd
 - name: Start etcd service
   ansible.builtin.systemd_service:
     name: etcd.service

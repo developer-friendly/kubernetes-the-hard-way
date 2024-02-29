@@ -4,6 +4,8 @@
     url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
     dest: /tmp/etcd-linux-amd64.tar.gz
     mode: "0644"
+    owner: root
+    group: root
     checksum: sha256:{{ etcd_checksum }}
   tags:
     - download
@@ -25,4 +27,4 @@
   loop:
     - etcd
     - etcdctl
-  notify: reload systemd
+  notify: Reload etcd systemd

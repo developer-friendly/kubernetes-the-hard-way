@@ -1,5 +1,8 @@
 - name: Bootstrap the Kubernetes Cluster
-  hosts: all
+  hosts:
+    - node0
+    - node1
+    - node2
   become: true
   gather_facts: true
   vars_files:
@@ -12,13 +15,27 @@
     KUBECONFIG: /vagrant/share/admin.yml
   roles:
     - prerequisites
-    - haproxy
-    - tls-ca
+    - role: tls-ca
+      run_once: true
     - tls
     - kubeconfig
     - encryption
     - etcd
     - k8s
     - worker
-    - coredns
-    - cilium
+    - role: coredns
+      run_once: true
+    - role: cilium
+      run_once: true
+- name: Configure the Load Balancer
+  hosts: lb
+  become: true
+  gather_facts: true
+  vars_files:
+    - vars/apt.yml
+    - vars/k8s.yml
+    - vars/lb.yml
+    - vars/etcd.yml
+  roles:
+    - haproxy
+    - etcd-gateway

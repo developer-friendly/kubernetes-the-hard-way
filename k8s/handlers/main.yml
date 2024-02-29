@@ -1,4 +1,4 @@
-- name: Reload systemd
+- name: Reload k8s systemd
   ansible.builtin.systemd:
     name: "{{ item }}"
     state: restarted

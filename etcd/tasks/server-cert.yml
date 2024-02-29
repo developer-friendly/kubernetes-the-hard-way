@@ -42,4 +42,4 @@
     ownca_privatekey_path: /vagrant/share/etcd-ca.key
     ownca_not_after: +365d
   register: etcd_server_certificate
-  notify: reload systemd
+  notify: Reload etcd systemd

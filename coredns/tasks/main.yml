@@ -1,5 +1,21 @@
 ---
-- name: CoreDNS
-  ansible.builtin.include_tasks:
-    file: coredns.yml
-  run_once: true
+- name: Remove CoreDNS as static pod
+  ansible.builtin.file:
+    path: "{{ k8s_static_pods_dir }}/coredns.yml"
+    state: absent
+- name: Slurp CoreDNS TLS certificate
+  ansible.builtin.slurp:
+    src: /etc/kubernetes/pki/coredns.crt
+  register: coredns_cert
+- name: Slurp CoreDNS TLS key
+  ansible.builtin.slurp:
+    src: /etc/kubernetes/pki/coredns.key
+  register: coredns_key
+- name: Slurp CoreDNS CA certificate
+  ansible.builtin.slurp:
+    src: /etc/kubernetes/pki/ca.crt
+  register: coredns_ca
+- name: Apply CoreDNS manifest
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'manifests.yml.j2') | from_yaml }}"
+    state: present

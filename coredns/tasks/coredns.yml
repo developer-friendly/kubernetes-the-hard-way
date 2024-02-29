@@ -1,9 +1,0 @@
----
-- name: Remove CoreDNS as static pod
-  ansible.builtin.file:
-    path: "{{ k8s_static_pods_dir }}/coredns.yml"
-    state: absent
-- name: Apply CoreDNS manifest
-  kubernetes.core.k8s:
-    definition: "{{ lookup('file', 'manifests.yml') | from_yaml }}"
-    state: present
