@@ -27,7 +27,7 @@
     privatekey_path: /etc/kubernetes/pki/etcd/server.key
     subject_alt_name:
       - IP:127.0.0.1
-      - IP:{{ hostvars[inventory_hostname].host_ip }}
+      - IP:{{ host_ip }}
       - DNS:localhost
       - DNS:{{ etcd_peer_name }}
       - DNS:{{ inventory_hostname }}

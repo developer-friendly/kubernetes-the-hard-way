@@ -10,7 +10,7 @@
     subject:
       OU: 'Kubernetes The Hard Way'
     subject_alt_name:
-      - IP:{{ hostvars[inventory_hostname].host_ip }}
+      - IP:{{ host_ip }}
       - DNS:{{ inventory_hostname }}
 - name: Create coredns TLS certificate using CA key and cert
   community.crypto.x509_certificate:

@@ -13,6 +13,7 @@ repos:
         exclude: "{cilium,codedns}/files/manifests.yml"
       - id: sort-simple-yaml
       - id: check-added-large-files
+      - id: double-quote-string-fixer
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.88.0
     hooks:

@@ -1,5 +1,10 @@
 box = "ubuntu/jammy64"
 
+common_script = <<~SHELL
+  sudo apt update
+  sudo apt upgrade -y
+SHELL
+
 Vagrant.configure("2") do |config|
   (0..2).each do |i|
     config.vm.define "node#{i}" do |node|
@@ -11,6 +16,10 @@ Vagrant.configure("2") do |config|
         vb.cpus = 1
       end
 
+      # To hold the downloaded items and survive VM restarts
+      node.vm.synced_folder "share/dl", "/downloads", create: true
+
+      node.vm.provision "shell", inline: common_script
       node.vm.provision "ansible" do |ansible|
         ansible.verbose = "v"
         ansible.playbook = "bootstrap.yml"
@@ -28,6 +37,9 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
     end
 
+    node.vm.synced_folder "share/dl", "/downloads", create: true
+
+    node.vm.provision "shell", inline: common_script
     node.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "bootstrap.yml"

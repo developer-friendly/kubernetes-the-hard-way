@@ -1,2 +1,4 @@
 ---
 cache_valid_time: 604800
+
+downloads_dir: /downloads

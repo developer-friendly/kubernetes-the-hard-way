@@ -1,7 +1,7 @@
 - name: Download crictl
   ansible.builtin.get_url:
     url: "{{ crictl_url }}"
-    dest: /tmp/
+    dest: "{{ downloads_dir }}"
     mode: "0444"
     checksum: "sha256:{{ lookup('url', crictl_checksum_url) | split | first }}"
   register: crictl_download
