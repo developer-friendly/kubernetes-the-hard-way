@@ -23,3 +23,14 @@
     owner: root
     group: root
     mode: "0700"
+- name: Create private-network DNS records
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - 192.168.56.2 node0
+    - 192.168.56.3 node1
+    - 192.168.56.4 node2
+  tags:
+    - dns

@@ -1,10 +1,21 @@
 - name: Download runc
   ansible.builtin.get_url:
     url: "{{ runc_url }}"
-    dest: /usr/local/bin/runc
+    dest: "{{ downloads_dir }}/{{ runc_url | basename }}"
     mode: "0755"
     use_proxy: false
     checksum: "sha256:{{ runc_checksum }}"
   when: runc_url.endswith('runc.amd64')
   tags:
     - download
+  register: runc_download
+- name: Copy to bin dir
+  ansible.builtin.copy:
+    src: "{{ runc_download.dest }}"
+    dest: /usr/local/bin/runc
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+  tags:
+    - bin

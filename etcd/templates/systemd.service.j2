@@ -14,7 +14,7 @@ ExecStart=/usr/local/bin/etcd \
   --initial-cluster-token={{ etcd_initial_cluster_token }} \
   --initial-cluster={{ etcd_initial_cluster }} \
   --key-file=/etc/kubernetes/pki/etcd/server.key \
-  --listen-client-urls=https://{{ bind_address }}:2379,https://localhost:2379 \
+  --listen-client-urls=https://{{ bind_address }}:2379 \
   --listen-peer-urls=https://{{ bind_address }}:2380 \
   --log-level info \
   --log-outputs stderr \

@@ -2,6 +2,7 @@ box = "ubuntu/jammy64"
 N = 2
 
 common_script = <<~SHELL
+  export DEBIAN_FRONTEND=noninteractive
   sudo apt update
   sudo apt upgrade -y
 SHELL
