@@ -8,3 +8,4 @@ apiserver_ips:
   - 192.168.56.4
 cilium_version: 1.15.1
 k8s_static_pods_dir: /etc/kubernetes/manifests
+bind_address: "0.0.0.0"
