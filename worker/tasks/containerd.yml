@@ -1,7 +1,7 @@
 - name: Download containerd
   ansible.builtin.get_url:
     url: "{{ containerd_url }}"
-    dest: /tmp/{{ containerd_url | basename }}
+    dest: "{{ downloads_dir }}"
     checksum: "sha256:{{ lookup('url', containerd_checksum_url) | split | first }}"
     mode: "0444"
   register: containerd_download
