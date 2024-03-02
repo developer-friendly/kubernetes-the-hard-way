@@ -1,7 +1,7 @@
 - name: Download cni-pugins
   ansible.builtin.get_url:
     url: "{{ cni_plugins_url }}"
-    dest: "{{ downloads_dir }}"
+    dest: "{{ downloads_dir }}/{{ cni_plugins_url | basename }}"
     mode: "0644"
     checksum: "sha256:{{ lookup('url', cni_plugins_checksum_url) | split | first }}"
   register: cni_plugins

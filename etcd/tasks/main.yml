@@ -14,7 +14,7 @@
   ansible.builtin.import_tasks:
     file: kube-apiserver-client-cert.yml
 - name: CA Cert
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: ca-cert.yml
 - name: Configure grub
   ansible.builtin.import_tasks:

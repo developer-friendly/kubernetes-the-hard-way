@@ -2,7 +2,7 @@
   ansible.builtin.get_url:
     url: "{{ helm_download_url }}"
     checksum: "sha256:{{ helm_checksum }}"
-    dest: "{{ downloads_dir }}/helm-linux-amd64.tar.gz"
+    dest: "{{ downloads_dir }}/{{ helm_download_url | basename }}"
     owner: root
     group: root
     mode: "0444"

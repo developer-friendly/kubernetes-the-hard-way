@@ -1,27 +1,27 @@
 - name: Generate control plane TLS certificate
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: apiserver.yml
 - name: Generate kubelet TLS certificate
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: kubelet.yml
 - name: Generate controller manager TLS certificate
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: controller-manager.yml
 - name: Generate scheduler TLS certificate
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: scheduler.yml
 - name: Create service accounts TLS certificate
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: serviceaccount.yml
 - name: CA Cert
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: ca-cert.yml
 - name: CoreDNS
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: coredns.yml
 - name: Admin
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: admin.yml
 - name: Kube proxy
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: kube-proxy.yml

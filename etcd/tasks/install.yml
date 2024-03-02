@@ -1,8 +1,8 @@
 ---
 - name: Download etcd release tarball
   ansible.builtin.get_url:
-    url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
-    dest: "{{ downloads_dir }}"
+    url: "{{ etcd_download_url }}"
+    dest: "{{ downloads_dir }}/{{ etcd_download_url | basename }}"
     mode: "0644"
     owner: root
     group: root
@@ -19,13 +19,11 @@
     src: "{{ etcd_download.dest }}"
     dest: /usr/local/bin/
     remote_src: true
-    creates: /usr/local/bin/{{ item }}}
     mode: "0755"
-    include:
-      - etcd-{{ etcd_version }}-linux-amd64/{{ item }}
     extra_opts:
       - --strip-components=1
-  loop:
-    - etcd
-    - etcdctl
+      - --wildcards
+      - "**/etcd"
+      - "**/etcdctl"
+      - "**/etcdutl"
   notify: Reload etcd systemd

@@ -1,7 +1,7 @@
 - name: Download containerd
   ansible.builtin.get_url:
     url: "{{ containerd_url }}"
-    dest: "{{ downloads_dir }}"
+    dest: "{{ downloads_dir }}/{{ containerd_url | basename }}"
     checksum: "sha256:{{ lookup('url', containerd_checksum_url) | split | first }}"
     mode: "0444"
   register: containerd_download
@@ -37,7 +37,7 @@
 - name: Download containerd service
   ansible.builtin.get_url:
     url: "{{ containerd_service_url }}"
-    dest: /etc/systemd/system/
+    dest: /etc/systemd/system/{{ containerd_service_url | basename }}
     mode: "0644"
     owner: root
     group: root

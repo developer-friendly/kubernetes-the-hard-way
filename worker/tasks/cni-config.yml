@@ -55,6 +55,8 @@
   ansible.builtin.command: containerd config default
   changed_when: false
   register: containerd_default_config
+  tags:
+    - config
 - name: Configure containerd
   ansible.builtin.copy:
     content: "{{ containerd_default_config.stdout }}"
@@ -62,3 +64,6 @@
     owner: root
     group: root
     mode: "0640"
+  tags:
+    - config
+  notify: Restart containerd

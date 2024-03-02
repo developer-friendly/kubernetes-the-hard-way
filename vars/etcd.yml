@@ -1,6 +1,7 @@
 ---
 etcd_initial_cluster: etcd-node0=https://192.168.56.2:2380,etcd-node1=https://192.168.56.3:2380,etcd-node2=https://192.168.56.4:2380
-etcd_advertise_ip: "{{ host_ip }}"
+etcd_advertise_ip: "0.0.0.0"
 etcd_privatekey_type: Ed25519
-etcd_version: v3.5.11
-etcd_checksum: e256885e753dc99001335e099d3c2eb8cf21a865a087ee4d7e3665752ae5929a
+etcd_version: v3.5.12
+etcd_checksum: f2ff0cb43ce119f55a85012255609b61c64263baea83aa7c8e6846c0938adca5
+etcd_download_url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz

@@ -2,6 +2,7 @@
   ansible.builtin.systemd:
     name: "{{ item }}"
     state: restarted
+    daemon_reload: true
   loop:
     - kube-apiserver
     - kube-controller-manager
@@ -10,3 +11,4 @@
   ansible.builtin.systemd:
     name: kube-proxy
     state: restarted
+    daemon_reload: true
