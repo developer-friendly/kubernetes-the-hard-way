@@ -3,6 +3,3 @@
     name: etcd
     state: restarted
     daemon_reload: true
-- name: Update grub
-  ansible.builtin.shell: update-grub && reboot
-  changed_when: false

@@ -7,8 +7,8 @@
     owner: root
     group: root
   vars:
-    kube_apiserver_address: localhost
-    kube_apiserver_port: "{{ apiserver_port }}"
+    kube_apiserver_address: "{{ load_balancer_ip }}"
+    kube_apiserver_port: "{{ load_balancer_port }}"
     client_cert_path: /etc/kubernetes/pki/admin.crt
     client_key_path: /etc/kubernetes/pki/admin.key
 - name: Generate KubeConfig for host machine

@@ -1,6 +1,0 @@
-- name: Configure grub unified hierarchy for etcd
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    line: GRUB_CMDLINE_LINUX="systemd.unified_cgroup_hierarchy=0"
-    state: present
-  notify: Update grub
