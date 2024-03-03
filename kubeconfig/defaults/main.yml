@@ -1,5 +1,5 @@
 ---
 ca_cert_path: /etc/kubernetes/pki/ca.crt
 kube_context: kubernetes-the-hard-way
-kube_apiserver_address: "{{ load_balancer_address }}"
+kube_apiserver_address: "{{ load_balancer_ip }}"
 kube_apiserver_port: "{{ load_balancer_port }}"
