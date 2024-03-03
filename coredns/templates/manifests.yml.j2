@@ -35,9 +35,9 @@ items:
       name: coredns-tls
       namespace: kube-system
     data:
-      tls.crt: "{{ coredns_cert.content | b64encode }}"
-      tls.key: "{{ coredns_key.content | b64encode }}"
-      ca.crt: "{{ coredns_ca.content | b64encode }}"
+      tls.crt: "{{ coredns_cert.content }}"
+      tls.key: "{{ coredns_key.content }}"
+      ca.crt: "{{ coredns_ca.content }}"
   - apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -88,13 +88,6 @@ items:
       name: kube-dns
       namespace: kube-system
     spec:
-      clusterIP: 10.0.4.186
-      clusterIPs:
-        - 10.0.4.186
-      internalTrafficPolicy: Cluster
-      ipFamilies:
-        - IPv4
-      ipFamilyPolicy: SingleStack
       ports:
         - name: dns
           port: 53
@@ -110,14 +103,10 @@ items:
           targetPort: 9153
       selector:
         k8s-app: coredns
-      sessionAffinity: None
       type: ClusterIP
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
-      annotations:
-        deployment.kubernetes.io/revision: "1"
-      generation: 1
       name: coredns
       namespace: kube-system
     spec:

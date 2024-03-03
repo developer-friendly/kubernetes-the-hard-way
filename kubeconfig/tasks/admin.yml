@@ -2,23 +2,22 @@
 - name: Generate KubeConfig for Kubernetes components
   ansible.builtin.template:
     src: kubeconfig.yml.j2
-    dest: /var/lib/kubernetes/{{ item }}.kubeconfig
+    dest: /var/lib/kubernetes/admin.kubeconfig
     mode: "0640"
     owner: root
     group: root
   vars:
     kube_apiserver_address: localhost
-    client_cert_path: /etc/kubernetes/pki/{{ item }}.crt
-    client_key_path: /etc/kubernetes/pki/{{ item }}.key
-  loop:
-    - admin
+    kube_apiserver_port: "{{ apiserver_port }}"
+    client_cert_path: /etc/kubernetes/pki/admin.crt
+    client_key_path: /etc/kubernetes/pki/admin.key
 - name: Generate KubeConfig for host machine
   ansible.builtin.template:
     src: kubeconfig.yml.j2
     dest: /vagrant/share/admin.yml
     mode: "0400"
   vars:
-    kube_apiserver_address: "{{ host_ip }}"
+    kube_apiserver_address: localhost
     kube_apiserver_port: "{{ apiserver_port }}"
     ca_cert_path: ./ca.crt
     client_cert_path: ./admin.crt

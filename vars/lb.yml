@@ -1,4 +1,4 @@
 ---
 haproxy_version: 2.9
 load_balancer_ip: 192.168.56.100
-load_balancer_port: 443
+load_balancer_port: 6443

@@ -1,49 +1,22 @@
-- name: Download helm
+- name: Download cilium-cli
   ansible.builtin.get_url:
-    url: "{{ helm_download_url }}"
-    checksum: "sha256:{{ helm_checksum }}"
-    dest: "{{ downloads_dir }}/{{ helm_download_url | basename }}"
+    url: "{{ cilium_cli_url }}"
+    dest: "{{ downloads_dir }}/{{ cilium_cli_url | basename }}"
     owner: root
     group: root
-    mode: "0444"
-  tags:
-    - download
-  register: helm_download
-- name: Extract helm
+    mode: "0644"
+    checksum: "sha256:{{ cilium_cli_checksum }}"
+  register: cilium_cli_download
+- name: Extract cilium bin to /usr/local/bin
   ansible.builtin.unarchive:
-    src: "{{ helm_download.dest }}"
+    src: "{{ cilium_cli_download.dest }}"
     dest: /usr/local/bin/
     remote_src: true
-    extra_opts:
-      - --strip-components=1
-      - --wildcards
-      - "**/helm"
-- name: Add cilium repository
-  kubernetes.core.helm_repository:
-    name: cilium
-    repo_url: https://helm.cilium.io/
-    state: present
-- name: Copy cilium values file
-  ansible.builtin.template:
-    src: values.yml.j2
-    dest: /tmp/cilium-values.yml
     owner: root
     group: root
-    mode: "0444"
+    mode: "0755"
+    extra_opts:
+      - cilium
 - name: Install cilium
-  kubernetes.core.helm:
-    chart_version: "{{ cilium_version }}"
-    release_name: cilium
-    release_namespace: kube-system
-    release_state: present
-    chart_ref: cilium/cilium
-    update_repo_cache: true
-    values_files:
-      - /tmp/cilium-values.yml
-    wait: true
-    purge: true
-    atomic: true
-    history_max: 10
-    timeout: 2m
-  tags:
-    - helm
+  ansible.builtin.command: cilium install
+  failed_when: false

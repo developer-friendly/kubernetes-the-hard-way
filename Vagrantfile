@@ -10,11 +10,14 @@ SHELL
 Vagrant.configure("2") do |config|
   config.vm.define "lb" do |node|
     node.vm.box = box
-    node.vm.network :private_network, ip: "192.168.56.100"
+    node.vm.network :private_network, ip: "192.168.56.100", hostname: true
+    node.vm.network "forwarded_port", guest: 6443, host: 6443
     node.vm.hostname = "lb.local"
     node.vm.provider "virtualbox" do |vb|
+      vb.name = "k8s-the-hard-way-lb"
       vb.memory = "1024"
       vb.cpus = 1
+      vb.linked_clone = true
     end
 
     node.vm.synced_folder "share/dl", "/downloads", create: true
@@ -31,10 +34,12 @@ Vagrant.configure("2") do |config|
     config.vm.define "node#{machine_id}" do |node|
       node.vm.box = box
       node.vm.hostname = "node#{machine_id}.local"
-      node.vm.network :private_network, ip: "192.168.56.#{machine_id+2}"
+      node.vm.network :private_network, ip: "192.168.56.#{machine_id+2}", hostname: true
       node.vm.provider "virtualbox" do |vb|
+        vb.name = "k8s-the-hard-way-node#{machine_id}"
         vb.memory = "1024"
         vb.cpus = 1
+        vb.linked_clone = true
       end
 
       # To hold the downloaded items and survive VM restarts

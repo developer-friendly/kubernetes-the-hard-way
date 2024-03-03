@@ -26,7 +26,7 @@
     - vars/k8s.yml
     - vars/etcd.yml
   environment:
-    KUBECONFIG: /vagrant/share/admin.yml
+    KUBECONFIG: /var/lib/kubernetes/admin.kubeconfig
   roles:
     - prerequisites
     - role: tls-ca
