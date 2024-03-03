@@ -29,8 +29,8 @@
     line: "{{ item }}"
     state: present
   with_items:
-    - 192.168.56.2 node0
-    - 192.168.56.3 node1
-    - 192.168.56.4 node2
+    - 192.168.56.2 node0 etcd-node0
+    - 192.168.56.3 node1 etcd-node1
+    - 192.168.56.4 node2 etcd-node2
   tags:
     - dns

@@ -2,7 +2,7 @@
 - name: Download the Kubernetes binaries
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/{{ k8s_version }}/kubernetes-server-linux-amd64.tar.gz"
-    dest: "{{ downloads_dir }}/kubernetes-server-linux-amd64.tar.gz"
+    dest: "{{ downloads_dir }}/kubernetes-server-{{ k8s_version }}-linux-amd64.tar.gz"
     mode: "0444"
     owner: root
     group: root
