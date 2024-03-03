@@ -5,3 +5,4 @@ etcd_privatekey_type: Ed25519
 etcd_version: v3.5.12
 etcd_checksum: f2ff0cb43ce119f55a85012255609b61c64263baea83aa7c8e6846c0938adca5
 etcd_download_url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+k8s_etcd_servers: https://192.168.56.2:2379,https://192.168.56.3:2379,https://192.168.56.4:2379
