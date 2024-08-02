@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: trailing-whitespace
       - id: check-executables-have-shebangs
@@ -15,7 +15,7 @@ repos:
       - id: check-added-large-files
       - id: double-quote-string-fixer
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.88.0
+    rev: v1.92.0
     hooks:
       - id: terraform_fmt
         args:
@@ -33,14 +33,14 @@ repos:
       - id: go-imports
       - id: no-go-testing
   - repo: https://github.com/ansible/ansible-lint
-    rev: v24.2.0
+    rev: v24.7.0
     hooks:
       - id: ansible-lint
         args:
           - --fix
           - .
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 3.2.28
+    rev: 3.2.213
     hooks:
       - id: checkov
       # - id: checkov_diff
