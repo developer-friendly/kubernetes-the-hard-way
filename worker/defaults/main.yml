@@ -4,9 +4,9 @@ cluster_dns: 10.32.0.10
 cluster_domain: cluster.local
 cni_plugins_checksum_url: https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz.sha256
 cni_plugins_url: https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz
+containerd_url: https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz
 containerd_checksum_url: https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz.sha256sum
 containerd_service_url: https://github.com/containerd/containerd/raw/v1.7.13/containerd.service
-containerd_url: https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz
 crictl_checksum_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.29.0/crictl-v1.29.0-linux-amd64.tar.gz.sha256
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.29.0/crictl-v1.29.0-linux-amd64.tar.gz
 kubectl_checksum_url: https://dl.k8s.io/release/{{ k8s_version }}/bin/linux/amd64/kubectl.sha256

@@ -7,7 +7,7 @@
     group: root
   notify: Reload etcd-gateway systemd
 - name: Start etcd service
-  ansible.builtin.systemd_service:
+  ansible.builtin.systemd:
     name: etcd.service
     state: started
     enabled: true
