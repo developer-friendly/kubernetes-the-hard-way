@@ -18,9 +18,6 @@
     keyUsage_critical: true
     path: /etc/kubernetes/pki/kube-apiserver.csr
     privatekey_path: /etc/kubernetes/pki/kube-apiserver.key
-    subject:
-      O: system:kubernetes
-      OU: Kubernetes The Hard Way
     subject_alt_name: "{{ lookup('template', 'apiserver-alt-names.yml.j2') | from_yaml }}"
 - name: Create API Server TLS certificate using CA key and cert
   community.crypto.x509_certificate:
