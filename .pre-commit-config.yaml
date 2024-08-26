@@ -40,7 +40,7 @@ repos:
           - --fix
           - .
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 3.2.232
+    rev: 3.2.236
     hooks:
       - id: checkov
       # - id: checkov_diff
