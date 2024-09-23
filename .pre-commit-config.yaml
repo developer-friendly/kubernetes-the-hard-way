@@ -15,7 +15,7 @@ repos:
       - id: check-added-large-files
       - id: double-quote-string-fixer
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.96.0
+    rev: v1.96.1
     hooks:
       - id: terraform_fmt
         args:
@@ -33,14 +33,14 @@ repos:
       - id: go-imports
       - id: no-go-testing
   - repo: https://github.com/ansible/ansible-lint
-    rev: v24.9.0
+    rev: v24.9.2
     hooks:
       - id: ansible-lint
         args:
           - --fix
           - .
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 3.2.254
+    rev: 3.2.255
     hooks:
       - id: checkov
       # - id: checkov_diff
