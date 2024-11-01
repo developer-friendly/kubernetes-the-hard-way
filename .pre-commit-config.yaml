@@ -32,13 +32,6 @@ repos:
       - id: go-fmt
       - id: go-imports
       - id: no-go-testing
-  - repo: https://github.com/ansible/ansible-lint
-    rev: v24.9.2
-    hooks:
-      - id: ansible-lint
-        args:
-          - --fix
-          - .
   - repo: https://github.com/bridgecrewio/checkov.git
     rev: 3.2.257
     hooks:
