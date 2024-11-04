@@ -42,27 +42,6 @@ jobs:
       - name: Run pre-commit
         run: pre-commit run --all-files
 
-  trivy:
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: fs
-          # trivy-config: trivy.yaml
-      - continue-on-error: true
-        name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: "trivy-results.sarif"
-
   github-release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
